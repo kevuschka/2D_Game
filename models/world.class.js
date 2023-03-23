@@ -1,20 +1,23 @@
 class World {
-    
+    backgroundObjects = [
+        new BackgroundObject('img/5_background/layers/air.png'),
+        new BackgroundObject('img/5_background/layers/3_third_layer/1.png'),
+        new BackgroundObject('img/5_background/layers/2_second_layer/1.png'),
+        new BackgroundObject('img/5_background/layers/1_first_layer/1.png'),
+    ];
+
     character = new Character();
     enemies = [
         new Chicken(),
         new Chicken(),
         new Chicken(),
     ];
-    clouds = new Cloud();
+    clouds = [
+        new Cloud()
+    ];
     ctx;
     canvas;
-    bgFirstLayer = new BgFirstLayer();
-    bgSecondLayer = new BgSecondLayer();
-    bgThirdLayer = new BgThirdLayer();
-    air = new Air();
     
-    // self = this;
 
     constructor(canvas) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -24,17 +27,12 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.ctx.drawImage(this.air.img, this.bgThirdLayer.x, this.bgThirdLayer.y, this.bgThirdLayer.width, this.bgThirdLayer.height);
-        this.ctx.drawImage(this.bgThirdLayer.img, this.bgThirdLayer.x, this.bgThirdLayer.y, this.bgThirdLayer.width, this.bgThirdLayer.height);
-        this.ctx.drawImage(this.bgSecondLayer.img, this.bgThirdLayer.x, this.bgThirdLayer.y, this.bgThirdLayer.width, this.bgThirdLayer.height);
-        this.ctx.drawImage(this.bgFirstLayer.img, this.bgThirdLayer.x, this.bgThirdLayer.y, this.bgThirdLayer.width, this.bgThirdLayer.height);
 
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        this.enemies.forEach(enemy => {
-            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        });
-        this.ctx.drawImage(this.clouds.img, this.clouds.x, this.clouds.y, this.clouds.width, this.clouds.height);
         
+        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.clouds);
+        this.addObjectsToMap(this.enemies);
+        this.addToMap(this.character);
         
         // draw() wird immer wieder aufgerufen
         self = this;
@@ -42,5 +40,16 @@ class World {
             self.draw();
         });
 
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(o => {
+            this.addToMap(o);
+        })
+    }
+
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 }
