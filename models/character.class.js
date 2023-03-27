@@ -3,6 +3,8 @@ class Character extends MovableObject {
     y = 150;
     height = 280;
     width = 150;
+    world;
+    speed = 2;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -29,29 +31,54 @@ class Character extends MovableObject {
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLE);
-        this.animateIdle();
+        this.loadImages(this.IMAGES_WALKING);
+        this.animate();
     }
 
-    currentImage = 0;
+
+    animate() {
+        setInterval( () => {
+            if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) this.animateWalking();
+        }, 80);
+
+        setInterval( () => {
+            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                this.x += this.speed;
+                this.otherDirection = false;
+            }
+            if(this.world.keyboard.LEFT && this.x >= -200) {
+                this.x -= this.speed;
+                this.otherDirection = true;
+            }
+            this.world.camera_x = -this.x + 100;
+        }, 1000 / 60)
+
+        
+
+        setInterval( () => {
+            if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) this.animateIdle();
+        }, 300);
+    }
+
+
+
+
 
     animateIdle() {
-        setInterval( () => {
-            let i = this.currentImage % this.IMAGES_IDLE.length;
-            let path = this.IMAGES_IDLE[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        }, 200);
+        let i = this.currentImage % this.IMAGES_IDLE.length;
+        let path = this.IMAGES_IDLE[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
 
     animateWalking() {
-        setInterval( () => {
-            let i = this.currentImage % this.IMAGES_WALKING.length;
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
-        }, 200);
+        let i = this.currentImage % this.IMAGES_WALKING.length;
+        let path = this.IMAGES_WALKING[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
+
 
     jump() {
 
