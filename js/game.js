@@ -8,7 +8,7 @@ let background_music = new Audio('audio/background_music1.mp3');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    // background_sound.play();
+    background_sound.play();
     // playBackgroundMusic() 
     console.log('My Character is', world.character);
     
