@@ -1,19 +1,5 @@
-class MovableObject {
-    x = 120
-    y = 250;
-    img;
-    height = 150;
-    width = 100;
-    imageCache = {};
-    speed = 0.12;
-    currentImage = 0;
-    otherDirection = false;
-
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
+class MovableObject extends GameObject {
+    
 
     loadImages(arr) {
         arr.forEach(path => {
@@ -32,6 +18,13 @@ class MovableObject {
             this.x -= this.speed;
             // if(this.x <= -400) this.x = 300;
         }, 1000 / 60);
+    }
+
+    animateImages(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 
 

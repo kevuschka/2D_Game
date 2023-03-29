@@ -28,6 +28,9 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-26.png',
     ]
 
+    walking_sound = new Audio('audio/running_long2.mp3');
+    
+
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLE);
@@ -42,15 +45,21 @@ class Character extends MovableObject {
         }, 80);
 
         setInterval( () => {
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
-                this.otherDirection = false;
-            }
-            if(this.world.keyboard.LEFT && this.x >= -200) {
-                this.x -= this.speed;
-                this.otherDirection = true;
-            }
-            this.world.camera_x = -this.x + 100;
+                if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.x += this.speed;
+                    this.otherDirection = false;
+                    
+                }
+                else if(this.world.keyboard.LEFT && this.x >= -200) {
+                    this.x -= this.speed;
+                    this.otherDirection = true;
+                    
+                }
+                else {
+                    this.walking_sound.pause();
+                    this.walking_sound.currentTime = 0;
+                }
+                this.world.camera_x = -this.x + 100 ;
         }, 1000 / 60)
 
         
@@ -65,18 +74,13 @@ class Character extends MovableObject {
 
 
     animateIdle() {
-        let i = this.currentImage % this.IMAGES_IDLE.length;
-        let path = this.IMAGES_IDLE[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.animateImages(this.IMAGES_IDLE);
     }
 
 
     animateWalking() {
-        let i = this.currentImage % this.IMAGES_WALKING.length;
-        let path = this.IMAGES_WALKING[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        this.animateImages(this.IMAGES_WALKING);
+        this.walking_sound.play();
     }
 
 
