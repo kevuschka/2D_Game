@@ -1,5 +1,9 @@
 class MovableObject extends GameObject {
-    
+    imageCache = {};
+    speed = 0.12;
+    otherDirection = false;
+    speedY = 0;
+    acceleration = 2;
 
     loadImages(arr) {
         arr.forEach(path => {
@@ -9,16 +13,14 @@ class MovableObject extends GameObject {
         });
     }
 
-    moveRight() {
-        console.log('Move right');
+    moveLeft() {
+        this.x -= this.speed;
     }
 
-    moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-            // if(this.x <= -400) this.x = 300;
-        }, 1000 / 60);
+    moveRight() {
+        this.x += this.speed;
     }
+
 
     animateImages(images) {
         let i = this.currentImage % images.length;
@@ -27,5 +29,18 @@ class MovableObject extends GameObject {
         this.currentImage++;
     }
 
+    applyGravity() {
+        setInterval( () => {
+            if(this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+            }
+            // console.log('speedY-gravity', this.speedY);
+        }, 1000 / 25);
+    }
+
+    isAboveGround() {
+        return this.y < 146;
+    }
 
 }
