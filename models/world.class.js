@@ -13,13 +13,13 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollision();
     }
 
 
     setWorld() {
         this.character.world = this;
     }
-
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -28,9 +28,10 @@ class World {
         
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.items);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
+        
 
         this.ctx.translate(-this.camera_x, 0);
         
@@ -54,15 +55,17 @@ class World {
         if(mo.otherDirection) {
             this.flipImage(mo);
         }
-        
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        mo.draw(this.ctx);
 
-     
+        if(mo instanceof Character || mo instanceof Chicken || mo instanceof Endboss) {
+            
+            mo.drawFrame(this.ctx);
+        }
+
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
-
 
     flipImage(mo) {
         this.ctx.save();
@@ -75,5 +78,21 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+    
+
+
+    checkCollision() {
+        setInterval(()=> {
+            this.level.enemies.forEach((enemy) => 
+                {
+                    if(this.character.isColliding(enemy)) {
+                        this.character.hit();
+                        console.log('energy', this.character.energy);
+                        this.character.animateHurting();
+                    }
+                });
+        }, 100);
     }
 }

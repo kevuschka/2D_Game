@@ -40,6 +40,22 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png',
     ]
 
+    IMAGES_HURTING = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png'
+    ]
+
+    IMAGES_DEAD = [
+        'img/2_character_pepe/5_dead/D-51.png',
+        'img/2_character_pepe/5_dead/D-52.png',
+        'img/2_character_pepe/5_dead/D-53.png',
+        'img/2_character_pepe/5_dead/D-54.png',
+        'img/2_character_pepe/5_dead/D-55.png',
+        'img/2_character_pepe/5_dead/D-56.png',
+        'img/2_character_pepe/5_dead/D-57.png',
+    ]
+
 
     walking_sound = new Audio('audio/running_long2.mp3');
     jumping_sound = new Audio('audio/jump.mp3')
@@ -50,6 +66,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_HURTING);
+        this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animate();
     }
@@ -60,28 +78,37 @@ class Character extends MovableObject {
         
 
         setInterval( () => {
-                if(this.world.keyboard.SPACE || this.isAboveGround()) this.animateJumping();
-                if(!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) this.animateWalking();
+            if(!this.isDead()) {
+                if(this.world.keyboard.SPACE || this.isAboveGround()) {
+                    this.noWalkingSound();
+                    this.animateJumping();
+                } else if(!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) 
+                    this.animateWalking();
+                else this.noWalkingSound();
+            }
+            else if(this.isDead() && !this.dead) {
+                this.noWalkingSound();
+                this.animateDead();
+            }
+            // else this.loadImage('img/2_character_pepe/5_dead/D-56.png'); ///////////////////////////////
         }, 80);
 
         setInterval( () => {
+            if(!this.isDead()) {
                 if(this.world.keyboard.SPACE && !this.isAboveGround()) {
                         this.jump();
                 }
-
-                else if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                    this.moveRight();
-                    this.otherDirection = false; 
-                }
-                else if(this.world.keyboard.LEFT && this.x >= -200) {
-                    this.moveLeft();
-                    this.otherDirection = true;
-                }
-                else {
-                    this.walking_sound.pause();
-                    this.walking_sound.currentTime = 0;
+                else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                        this.moveRight();
+                        this.otherDirection = false;
+                    } else if(this.world.keyboard.LEFT && this.x >= -200) {
+                        this.moveLeft();
+                        this.otherDirection = true;
+                    }
                 }
                 this.world.camera_x = -this.x + 100 ;
+            } 
         }, 1000 / 60);
 
         
@@ -92,6 +119,10 @@ class Character extends MovableObject {
     }
 
 
+    noWalkingSound() {
+        this.walking_sound.pause();
+        this.walking_sound.currentTime = 0;
+    }
 
 
 
@@ -101,6 +132,8 @@ class Character extends MovableObject {
 
 
     animateWalking() {
+        // this.walking_sound.pause();
+        // this.walking_sound.currentTime = 0;
         this.animateImages(this.IMAGES_WALKING);
         this.walking_sound.play();
     }
@@ -109,6 +142,23 @@ class Character extends MovableObject {
         this.animateImages(this.IMAGES_JUMPING);
     }
 
+    animateHurting() {
+        this.animateImages(this.IMAGES_HURTING);
+    }
+
+    animateDead() {
+        setTimeout(()=>{
+            this.img = this.IMAGES_DEAD[this.IMAGES_DEAD.length-2];
+        }, 300);
+        this.animateImages(this.IMAGES_DEAD);
+        this.dead = true;
+    }
+
+
+    walkindSound() {
+        this.walking_sound.pause();
+                    this.walking_sound.currentTime = 0;
+    }
 
     jump() {
         this.jumping_sound.currentTime = 0; 
