@@ -1,4 +1,4 @@
-class Bottle extends GameObject {
+class Bottle extends DrawableObject {
     x = -100;
     y = 350;
     width = 80;

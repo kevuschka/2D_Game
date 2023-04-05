@@ -1,19 +1,13 @@
-class MovableObject extends GameObject {
-    imageCache = {};
+class MovableObject extends DrawableObject {
     speed = 0.12;
     otherDirection = false;
     speedY = 0;
     acceleration = 2;
     dead = false;
+    alreadyDead = false;
     lastHit = 0;
 
-    loadImages(arr) {
-        arr.forEach(path => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
+
 
     moveLeft() {
         this.x -= this.speed;
@@ -44,17 +38,18 @@ class MovableObject extends GameObject {
 
 
     isAboveGround() {
-        return this.y < 146;
+        return this.y < 180;
     }
 
 
-    isColliding(enemy) {
-        return this.x + this.width - 40 > enemy.x &&
+    isColliding(enemy, hitFromLeft, hitFromRight) {
+        return this.x + this.width > enemy.x + hitFromLeft &&
                 this.y + this.height >= enemy.y &&
-                this.x < enemy.x &&
+                this.x < enemy.x + hitFromRight &&
                 this.y < enemy.y + enemy.height;
 
     }
+
 
     hit() {
         this.energy -= 5;
@@ -62,14 +57,18 @@ class MovableObject extends GameObject {
         else this.lastHit = new Date().getTime();
     }
 
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed > 5;
+        return timepassed < 1;
     }
+
 
     isDead() {
         return this.energy == 0;
     }
 
+
+    
 }

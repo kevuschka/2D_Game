@@ -1,8 +1,8 @@
 class Character extends MovableObject {
     x = 60;
-    y = 50;
-    height = 280;
-    width = 150;
+    y = 180;
+    height = 250 ;
+    width = 120;
     world;
     speed = 3;
 
@@ -82,15 +82,24 @@ class Character extends MovableObject {
                 if(this.world.keyboard.SPACE || this.isAboveGround()) {
                     this.noWalkingSound();
                     this.animateJumping();
-                } else if(!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) 
+                } else if(!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isHurt()) {
                     this.animateWalking();
-                else this.noWalkingSound();
+                } else if(this.isHurt()) {
+                    this.animateHurting();
+                    this.noWalkingSound();
+                } else this.noWalkingSound();
             }
             else if(this.isDead() && !this.dead) {
                 this.noWalkingSound();
                 this.animateDead();
             }
-            // else this.loadImage('img/2_character_pepe/5_dead/D-56.png'); ///////////////////////////////
+            else {
+                if(this.alreadyDead) {}
+                else {
+                    this.loadImage('img/2_character_pepe/5_dead/D-56.png');
+                    this.alreadyDead = true;
+                }
+            }
         }, 80);
 
         setInterval( () => {
@@ -107,14 +116,14 @@ class Character extends MovableObject {
                         this.otherDirection = true;
                     }
                 }
-                this.world.camera_x = -this.x + 100 ;
+                this.world.camera_x = -this.x + 100;
             } 
         }, 1000 / 60);
 
         
 
         setInterval( () => {
-            if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT)) this.animateIdle();
+            if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isDead()) this.animateIdle();
         }, 300);
     }
 
@@ -147,11 +156,12 @@ class Character extends MovableObject {
     }
 
     animateDead() {
-        setTimeout(()=>{
-            this.img = this.IMAGES_DEAD[this.IMAGES_DEAD.length-2];
-        }, 300);
         this.animateImages(this.IMAGES_DEAD);
         this.dead = true;
+    }
+
+    showDead() {
+        this.loadImage('img/2_character_pepe/5_dead/D-56.png');
     }
 
 
@@ -164,6 +174,6 @@ class Character extends MovableObject {
         this.jumping_sound.currentTime = 0; 
         this.jumping_sound.volume = 0.6;
         this.jumping_sound.play();
-        this.speedY = 25;
+        this.speedY = 20;
     }
 }
