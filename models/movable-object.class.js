@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     dead = false;
     alreadyDead = false;
     lastHit = 0;
+    deadTime = 0;
 
 
 
@@ -44,13 +45,13 @@ class MovableObject extends DrawableObject {
     }
 
 
-    isColliding(enemy, hitFromLeft, hitFromRight) {
-        return this.x + this.width > enemy.x + hitFromLeft &&
-                this.y + this.height >= enemy.y &&
-                this.x < enemy.x + hitFromRight &&
+    isColliding(enemy, offSetLeft, offSetRight, offSetUp) {
+        return this.x + this.width > enemy.x + offSetLeft &&
+                this.y + this.height >= enemy.y + offSetUp &&
+                this.x < enemy.x + offSetRight &&
                 this.y < enemy.y + enemy.height;
-
     }
+
 
 
     hit() {
@@ -69,6 +70,10 @@ class MovableObject extends DrawableObject {
 
     isDead() {
         return this.energy == 0;
+    }
+
+    timeIsPassed() {
+
     }
 
 

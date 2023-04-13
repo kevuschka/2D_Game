@@ -8,7 +8,7 @@ class World {
     canvas;
     keyboard;
     camera_x = 0;
-    throwableBottle = [new ThrowableObject()];
+    throwableBottle = [];
     
 
     constructor(canvas, keyboard) {
@@ -18,7 +18,7 @@ class World {
         this.setWorld();
         // this.setStatusBars();
         this.draw();
-        this.checkCollision();
+        this.run();
     }
 
     setStatusBars() {
@@ -86,8 +86,7 @@ class World {
             mo instanceof Chicken || 
             mo instanceof Endboss || 
             mo instanceof Bottle || 
-            mo instanceof Coin ||
-            mo instanceof ThrowableObject) {
+            mo instanceof Coin ) {
             
             mo.drawFrame(this.ctx);
         }
@@ -111,24 +110,36 @@ class World {
         this.ctx.restore();
     }
 
-    
 
+    run() {
+        setInterval(()=> {
+            this.checkCollision();
+            this.checkThrowableObject();
+        }, 100);
+    }
+
+
+    checkThrowableObject() {
+        if(this.keyboard.keyD) {
+            let bottle = new ThrowableObject(this.character.x, this.character.y);
+            this.throwableBottle.push(bottle);
+        }
+
+    }
 
     checkCollision() {
-        setInterval(()=> {
-            this.checkCollisionChicken();
-            this.checkCollisionWithEndboss();
-            this.checkCollisionWithBottle();
-        }, 100);
+
+        this.checkCollisionChicken();
+        this.checkCollisionWithEndboss();
+        
     }
 
     checkCollisionChicken() {
         this.level.enemies.forEach((enemy) => 
             {
-                if(this.character.isColliding(enemy, 35, 0) && !this.character.isDead()) {
+                if(this.character.isColliding(enemy, 35, 0, 0) && !this.character.isDead() && !enemy.dead) {
                         this.character.hit();
                         this.statusbarHealth.setPercentage(this.character.energy);
-                        // console.log('energy', this.character.energy);
                 }
             });
     }
@@ -136,31 +147,11 @@ class World {
     checkCollisionWithEndboss() {
         this.level.endboss.forEach((enemy) => 
             {
-                if(this.character.isColliding(enemy, 70, 220) && !this.character.isDead()) {
+                if(this.character.isColliding(enemy, 70, 220, 0) && !this.character.isDead()) {
                     this.character.hit();
                     this.statusbarHealth.setPercentage(this.character.energy);
                 }
             });
     }
 
-    checkCollisionWithBottle() {
-        this.level.chicken.forEach((enemy) => 
-            {
-                    if(this.throwableBottle.isColliding(enemy, 0, 0)) {
-                        this.throwableBottle.speedY = 0;
-                        this.throwableBottle.speedX = 0; 
-                        this.throwableBottle.animateSplash();
-                    }
-            });
-        this.level.endboss.forEach((enemy) => 
-            {
-                if(this.throwableBottle.isColliding(enemy, 0, 0)) {
-                    this.throwableBottle.speedY = 0;
-                    this.throwableBottle.speedX = 0; 
-                    this.throwableBottle.animateSplash();
-                }
-            });
-    }
 }
-
-
