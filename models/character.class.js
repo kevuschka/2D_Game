@@ -5,6 +5,8 @@ class Character extends MovableObject {
     width = 120;
     world;
     speed = 3;
+    lastMove;
+    sleeping = false;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -17,6 +19,19 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-8.png',
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png'
+    ]
+
+    IMAGES_LONG_IDLE = [
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ]
 
     IMAGES_WALKING = [
@@ -64,18 +79,18 @@ class Character extends MovableObject {
     constructor() {
         super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
         this.applyGravity();
         this.animate();
+        this.lastMove = new Date().getTime();
     }
 
 
     animate() {
-
-        
 
         setInterval( () => {
             if(!this.isDead()) {
@@ -85,45 +100,54 @@ class Character extends MovableObject {
                 } else if(!this.isAboveGround() && (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isHurt()) {
                     this.animateWalking();
                 } else if(this.isHurt()) {
-                    this.animateHurting();
                     this.noWalkingSound();
+                    this.animateHurting(this.IMAGES_HURTING);
                 } else this.noWalkingSound();
-            }
-            else if(this.isDead() && !this.dead) {
+            } else if(this.isDead() && !this.dead) {
                 this.noWalkingSound();
+                this.sleeping = false;
                 this.animateDead();
-            }
-            else {
-                if(this.alreadyDead) {}
-                else {
+            } else {
                     this.loadImage('img/2_character_pepe/5_dead/D-56.png');
-                    this.alreadyDead = true;
-                }
+                    this.dead = true;
             }
         }, 80);
 
+
         setInterval( () => {
             if(!this.isDead()) {
+                if(this.world.keyboard.SPACE || this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.keyD || this.isHurt()) {
+                    this.lastMove = new Date().getTime();
+                    background_music.volume = 0.2;
+                    this.sleeping = false;
+                }
                 if(this.world.keyboard.SPACE && !this.isAboveGround()) {
                         this.jump();
                 }
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                         this.moveRight();
+                        this.moveBackgroundRight();
                         this.otherDirection = false;
                     } else if(this.world.keyboard.LEFT && this.x >= -200) {
                         this.moveLeft();
+                        this.moveBackgroundLeft();
                         this.otherDirection = true;
                     }
                 }
-                this.world.camera_x = -this.x + 100;
+                this.world.camera_x = -this.x + 200;
             } 
         }, 1000 / 60);
 
-        
 
         setInterval( () => {
-            if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isDead()) this.animateIdle();
+            if(this.isSleeping() && !this.dead) {
+                this.sleeping = true;
+                this.animateSleeping();
+                background_music.volume = 0.05;
+            } else if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isDead())  {
+                if(!this.sleeping) this.animateIdle();
+            } 
         }, 300);
     }
 
@@ -134,25 +158,21 @@ class Character extends MovableObject {
     }
 
 
-
     animateIdle() {
         this.animateImages(this.IMAGES_IDLE);
     }
 
+    animateSleeping() {
+        this.animateImages(this.IMAGES_LONG_IDLE);
+    }
 
     animateWalking() {
-        // this.walking_sound.pause();
-        // this.walking_sound.currentTime = 0;
         this.animateImages(this.IMAGES_WALKING);
         this.walking_sound.play();
     }
 
     animateJumping() {
         this.animateImages(this.IMAGES_JUMPING);
-    }
-
-    animateHurting() {
-        this.animateImages(this.IMAGES_HURTING);
     }
 
     animateDead() {
@@ -167,13 +187,42 @@ class Character extends MovableObject {
 
     walkindSound() {
         this.walking_sound.pause();
-                    this.walking_sound.currentTime = 0;
+            this.walking_sound.currentTime = 0;
     }
+
 
     jump() {
         this.jumping_sound.currentTime = 0; 
         this.jumping_sound.volume = 0.6;
         this.jumping_sound.play();
         this.speedY = 20;
+    }
+
+
+    moveBackgroundRight() {
+        for (let i = 0; i < 8; i++)
+            this.world.level.clouds[i].x += 1.0;  
+        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
+            this.world.level.backgroundObjects[8+i].x += 0.8;
+        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
+            this.world.level.backgroundObjects[16+i].x += 0.4;
+        
+    }
+
+
+    moveBackgroundLeft() {
+        for (let i = 0; i < 8; i++)
+            this.world.level.clouds[i].x -= 1;  
+        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
+            this.world.level.backgroundObjects[8+i].x -= 0.8;
+        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
+            this.world.level.backgroundObjects[16+i].x -= 0.4;   
+    }
+
+
+    isSleeping() {
+        let timepassed = new Date().getTime() - this.lastMove;
+        timepassed = timepassed / 1000;
+        return timepassed > 5;
     }
 }

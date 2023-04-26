@@ -29,7 +29,8 @@ class ThrowableObject extends CollectableObject {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BOTTLE);
         this.loadImages(this.IMAGES_SPLASH);
-        this.x = x + 60;
+        if(world.character.otherDirection) this.x = x;
+        else this.x = x + 60;
         this.y = y + 110;
         this.throw();
         this.runBottle();
@@ -50,8 +51,18 @@ class ThrowableObject extends CollectableObject {
                 };
             });
 
-            world.level.endboss.forEach(enemy => {
-                if(this.isColliding(enemy, 10, 10, 30)) console.log('HIT enemy');
+            world.level.endboss.forEach(boss => {
+                if(this.isCollidingEndboss(boss, 100) &&
+                    (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) || 
+                    this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
+                    // boss.hit();
+                    if(!this.broken) {
+                        this.broken = true;
+                        clearInterval(this.throwAnimation);
+                        this.animateSplash();
+                    }
+                    this.collidePosition();
+                }
             });
 
         }, 30);
@@ -66,7 +77,7 @@ class ThrowableObject extends CollectableObject {
 
     throw() {
         this.animateThrow();
-        this.speedY = 30;
+        this.speedY = 25;
         this.applyGravity();
     }
 
@@ -76,10 +87,7 @@ class ThrowableObject extends CollectableObject {
             if(!this.directionSet) {
                 this.directionSet = true;
                 if(!world.character.otherDirection) this.throwRight();
-                else if(world.character.otherDirection) {
-                    this.x = this.x - 60;
-                    this.throwLeft();
-                }
+                else if(world.character.otherDirection) this.throwLeft();
             }
             this.animateImages(this.IMAGES_BOTTLE);
         }, 70);
@@ -107,7 +115,7 @@ class ThrowableObject extends CollectableObject {
             index++;
             if(index == 6) {
                 clearInterval(splashy);
-                world.throwableBottle = [];
+                world.throwableBottle.splice(world.throwableBottle.indexOf(this), 1);
             }
         }, 90);
     }

@@ -9,6 +9,7 @@ class World {
     keyboard;
     camera_x = 0;
     throwableBottle = [];
+    lastKeyDPressed;
     
 
     constructor(canvas, keyboard) {
@@ -19,6 +20,7 @@ class World {
         // this.setStatusBars();
         this.draw();
         this.run();
+        this.lastKeyDPressed = new Date().getTime();
     }
 
     setStatusBars() {
@@ -51,8 +53,7 @@ class World {
         
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
-        this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.collectableObjects);
         this.addObjectsToMap(this.throwableBottle);
         this.addToMap(this.character);
 
@@ -82,11 +83,9 @@ class World {
         }
         mo.draw(this.ctx);
 
-        if(mo instanceof Character || 
-            mo instanceof Chicken || 
+        if( 
             mo instanceof Endboss || 
-            mo instanceof Bottle || 
-            mo instanceof Coin ) {
+            mo instanceof CollectableObject) {
             
             mo.drawFrame(this.ctx);
         }
@@ -115,20 +114,28 @@ class World {
         setInterval(()=> {
             this.checkCollision();
             this.checkThrowableObject();
-        }, 100);
+        }, 1000 / 25);
     }
 
 
     checkThrowableObject() {
-        if(this.keyboard.keyD) {
-            let bottle = new ThrowableObject(this.character.x, this.character.y);
-            this.throwableBottle.push(bottle);
+        if(this.notThrowing()) {
+            if(this.keyboard.keyD) {
+                this.lastKeyDPressed = new Date().getTime();
+                let bottle = new ThrowableObject(this.character.x, this.character.y);
+                this.throwableBottle.push(bottle);
+            }
         }
+    }
+    
 
+    notThrowing() {
+        let timepassed = new Date().getTime() - this.lastKeyDPressed;
+        timepassed = timepassed / 1000;
+        return timepassed > 0.3;
     }
 
     checkCollision() {
-
         this.checkCollisionChicken();
         this.checkCollisionWithEndboss();
         
@@ -137,7 +144,12 @@ class World {
     checkCollisionChicken() {
         this.level.enemies.forEach((enemy) => 
             {
-                if(this.character.isColliding(enemy, 35, 0, 0) && !this.character.isDead() && !enemy.dead) {
+                if(this.character.isCollidingFromTop(enemy, 40, -40, 20, 40) && !this.character.isDead() && !enemy.dead && this.character.speedY < 0) {
+                    enemy.dead = true;
+                    this.character.speedY = 10;
+                    
+                }
+                if(this.character.isColliding(enemy, 35, 0, 20) && !this.character.isDead() && !enemy.dead) {
                         this.character.hit();
                         this.statusbarHealth.setPercentage(this.character.energy);
                 }
@@ -147,7 +159,7 @@ class World {
     checkCollisionWithEndboss() {
         this.level.endboss.forEach((enemy) => 
             {
-                if(this.character.isColliding(enemy, 70, 220, 0) && !this.character.isDead()) {
+                if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
                     this.character.hit();
                     this.statusbarHealth.setPercentage(this.character.energy);
                 }

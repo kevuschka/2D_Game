@@ -6,13 +6,13 @@ class MovableObject extends DrawableObject {
     dead = false;
     alreadyDead = false;
     lastHit = 0;
-    deadTime = 0;
-
+    type;
 
 
     moveLeft() {
         this.x -= this.speed;
     }
+
 
     moveRight() {
         this.x += this.speed;
@@ -33,7 +33,6 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-            // console.log('speedY-gravity', this.speedY);
         }, 1000 / 25);
     }
 
@@ -41,21 +40,59 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if(this instanceof ThrowableObject) {
             return true;
-        } else return this.y < 180;
+        } else return this.y+this.height < 428;
     }
 
 
     isColliding(enemy, offSetLeft, offSetRight, offSetUp) {
         return this.x + this.width > enemy.x + offSetLeft &&
-                this.y + this.height >= enemy.y + offSetUp &&
+                this.y + this.height > enemy.y + offSetUp &&
                 this.x < enemy.x + offSetRight &&
                 this.y < enemy.y + enemy.height;
     }
 
 
+    isCollidingFromTop(enemy, offSetLeft, offSetRight, offSetUpMax, offSetUpMin) {
+        return this.x + this.width > enemy.x + offSetLeft &&
+                this.y + this.height > enemy.y + offSetUpMax &&
+                this.y + this.height < enemy.y + offSetUpMin &&
+                this.x < enemy.x + enemy.width + offSetRight &&
+                this.y < enemy.y + enemy.height;
+    }
+
+
+    isCollidingEndboss(enemy, offSetUp) {
+        return  this.y                < enemy.y + enemy.height && 
+                this.y + this.height  > enemy.y + offSetUp 
+    }
+
+
+    isCollidingEndbossHead(enemy, offSetLeft, offSetUp, headX, headY) {
+        return this.y + this.height  < enemy.y  + headY + offSetUp &&
+        (
+            (this.x + this.width > enemy.x + offSetLeft &&
+            this.x                < enemy.x + offSetLeft) || 
+            (this.x + this.width  > enemy.x  + headX + offSetLeft &&
+            this.x                < enemy.x + headX + offSetLeft)
+        )
+    }
+    
+
+    isCollidingEndbossBody(enemy, offSetLeft, offSetRight, offSetUp, headY) {
+        return this.y + this.height  > enemy.y + headY + offSetUp &&
+        (
+            (this.x + this.width > enemy.x + offSetLeft + 20 &&
+            this.x                < enemy.x + offSetLeft + 20) || 
+            (this.x + this.width  > enemy.x + enemy.width + offSetRight  &&
+            this.x                < enemy.x + enemy.width + offSetRight) || 
+            (this.x               > enemy.x + offSetLeft &&
+            this.x + this.width   < enemy.x + enemy.width + offSetRight)
+        )
+    }
+
 
     hit() {
-        this.energy -= 5;
+        this.energy -= 0.5;
         if(this.energy < 0) this.energy = 0;
         else this.lastHit = new Date().getTime();
     }
@@ -72,9 +109,8 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
-    timeIsPassed() {
-
+    animateHurting(images) {
+        this.animateImages(images);
     }
-
 
 }

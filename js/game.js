@@ -7,16 +7,16 @@ let background_music = new Audio('audio/background_music1.mp3');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    playBackgroundMusic() 
+    playBackgroundMusic();
     console.log('My Character is', world.character);
     
     
 }
 
 function playBackgroundMusic() {
-    background_music.volume = 0.05;
+    background_music.volume = 0.2;
     background_music.loop = true; 
-    // background_music.play();
+    //background_music.play();
 }
 
 window.addEventListener("keydown", (event) => {
