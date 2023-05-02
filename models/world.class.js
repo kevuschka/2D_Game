@@ -4,6 +4,8 @@ class World {
     statusbarHealth = new Statusbar(1);
     statusbarBottle = new Statusbar(2);
     statusbarCoin = new Statusbar(3);
+    statusbarEndboss = new Statusbar(4);
+    statusbarIconEndboss = new Statusbar(5);
     ctx;
     canvas;
     keyboard;
@@ -48,11 +50,16 @@ class World {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarCoin);
+        if(this.character.x > this.level.endboss.x - 580) {
+            this.addToMap(this.statusbarEndboss);
+            this.addToMap(this.statusbarIconEndboss);
+        }
+        
         this.ctx.translate(this.camera_x, 0); // flip back to right (unnormal)
-
+        
         
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.endboss);
+        this.addToMap(this.level.endboss);
         this.addObjectsToMap(this.level.collectableObjects);
         this.addObjectsToMap(this.throwableBottle);
         this.addToMap(this.character);
@@ -157,13 +164,11 @@ class World {
     }
 
     checkCollisionWithEndboss() {
-        this.level.endboss.forEach((enemy) => 
-            {
-                if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
-                    this.character.hit();
-                    this.statusbarHealth.setPercentage(this.character.energy);
-                }
-            });
+        let enemy = this.level.endboss;
+        if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
+            this.character.hit();
+            this.statusbarHealth.setPercentage(this.character.energy);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ class Endboss extends MovableObject {
     y = 55;
     width = 300;
     height = 400;
+    hurting;
 
     IMAGES_WALKING = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -22,6 +23,18 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ]
 
+
+    IMAGES_ATTACK = [
+        'img/4_enemie_boss_chicken/3_attack/G13.png',
+        'img/4_enemie_boss_chicken/3_attack/G14.png',
+        'img/4_enemie_boss_chicken/3_attack/G15.png',
+        'img/4_enemie_boss_chicken/3_attack/G16.png',
+        'img/4_enemie_boss_chicken/3_attack/G17.png',
+        'img/4_enemie_boss_chicken/3_attack/G18.png',
+        'img/4_enemie_boss_chicken/3_attack/G19.png',
+        'img/4_enemie_boss_chicken/3_attack/G20.png'
+    ]
+
     IMAGES_HURTING = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
@@ -31,23 +44,47 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_ALERT);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURTING);
+        this.animateImages(this.IMAGES_WALKING);
         this.run();
     }
 
 
 
 
-    walkingAnimation = setInterval(() => {
-        this.animateImages(this.IMAGES_WALKING);
-    }, 200);
-
-
     run() {
         setInterval( ()=> {
-            if(this.isHurt()) this.animateHurting(this.IMAGES_HURTING);
-            if(!this.isHurt() && !this.isDead()) {
+            if(this.isHurt()) this.animateEndbossHurting();
+            else if(!this.isHurt() && !this.isDead()) {
                 this.moveLeft();
+                this.animateImages(this.IMAGES_WALKING);
             }
+            // if(this.x  - 40 < world.character.x) this.animateAttack();
         }, 1000 / 60);
     }
+
+
+    animateEndbossHurting() {
+        if(!this.hurt) {
+            this.hurt = true;
+            this.hurting = setInterval(() => {
+                this.animateHurting(this.IMAGES_HURTING);
+            }, 100);
+        }
+    }
+
+
+    stopHurting() {
+        this.hurt = false;
+        clearInterval(this.hurting);
+        this.animateImages(this.IMAGES_WALKING);
+    }
+
+
+    animateAttack() {
+            this.animateImages(this.IMAGES_ATTACK);
+    }
+
 }

@@ -7,7 +7,6 @@ class ThrowableObject extends CollectableObject {
     throwAnimation;
     directionSet = false;
 
-    
 
     IMAGES_BOTTLE = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -36,37 +35,45 @@ class ThrowableObject extends CollectableObject {
         this.runBottle();
     }
 
+
     runBottle() {
         setInterval(() => {
-
-            world.level.enemies.forEach(enemy => {
-                if(this.isColliding(enemy, 20, 35, 20) && !enemy.dead && !this.broken) {
-                    enemy.dead = true;
-                    if(!this.broken) {
-                        this.broken = true;
-                        clearInterval(this.throwAnimation);
-                        this.animateSplash();
-                    }
-                    this.collidePosition();
-                };
-            });
-
-            world.level.endboss.forEach(boss => {
-                if(this.isCollidingEndboss(boss, 100) &&
-                    (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) || 
-                    this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
-                    // boss.hit();
-                    if(!this.broken) {
-                        this.broken = true;
-                        clearInterval(this.throwAnimation);
-                        this.animateSplash();
-                    }
-                    this.collidePosition();
-                }
-            });
-
+            this.hitEnemy();
+            this.hitEndboss();
         }, 30);
     }
+
+
+    hitEnemy() {
+        world.level.enemies.forEach(enemy => {
+            if(this.isColliding(enemy, 20, 35, 20) && !enemy.dead && !this.broken) {
+                enemy.dead = true;
+                this.bottleSplash();
+            };
+        });
+    }
+
+
+    hitEndboss() {
+        let boss = world.level.endboss;
+        if(this.isCollidingEndboss(boss, 100) &&
+            (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
+            this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
+                this.bottleSplash(this);
+                boss.hit();
+        }
+    }
+
+
+    bottleSplash() {
+        if(!this.broken) {
+            this.broken = true;
+            clearInterval(this.throwAnimation);
+            this.animateSplash();
+        }
+        this.collidePosition();
+    }
+
 
     collidePosition() {
         this.speedX = 0;
@@ -99,6 +106,7 @@ class ThrowableObject extends CollectableObject {
             this.x += this.speedX;
         }, 70);
     }
+
 
     throwLeft() {
         setInterval(()=> {

@@ -4,9 +4,7 @@ let enemy = [];
 
 const level1 = new Level(
         renderEnemyObjects(),
-    [
-        new Endboss()
-    ],
+        new Endboss(),
         renderCloudObjects(),
         renderBackgroundObjects(),
     [

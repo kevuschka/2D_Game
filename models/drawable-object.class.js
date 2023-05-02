@@ -7,6 +7,8 @@ class DrawableObject {
     imageCache = {};
     currentImage = 0;
     energy = 100;
+    coins = 0;
+    bottles = 0;
     hurt = false;
     
 

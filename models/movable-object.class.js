@@ -101,7 +101,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 1;
+        return timepassed < 0.5;
     }
 
 
@@ -109,6 +109,7 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    
     animateHurting(images) {
         this.animateImages(images);
     }
