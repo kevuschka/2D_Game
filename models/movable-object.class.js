@@ -38,7 +38,8 @@ class MovableObject extends DrawableObject {
 
 
     isAboveGround() {
-        if(this instanceof ThrowableObject) {
+        if(this instanceof ThrowableObject ||
+            this instanceof Endboss) {
             return true;
         } else return this.y+this.height < 428;
     }
@@ -62,7 +63,7 @@ class MovableObject extends DrawableObject {
 
 
     isCollidingEndboss(enemy, offSetUp) {
-        return  this.y                < enemy.y + enemy.height && 
+        return  this.y                < enemy.y + enemy.height - 100 && 
                 this.y + this.height  > enemy.y + offSetUp 
     }
 

@@ -121,6 +121,16 @@ class World {
         setInterval(()=> {
             this.checkCollision();
             this.checkThrowableObject();
+            if(!this.level.endboss.isDead()) {
+                this.level.endboss.checkTurning(this.character);
+                this.level.endboss.walkFasterWhenAttack(this.character);
+                this.level.endboss.pepeIsToClose(this.character);
+                this.throwableBottle.forEach(bottle => {
+                    if(bottle.isBottleFlying()) {
+                        this.level.endboss.moveFromBottle();
+                    }
+                })
+            }
         }, 1000 / 25);
     }
 
@@ -163,11 +173,14 @@ class World {
             });
     }
 
+
     checkCollisionWithEndboss() {
         let enemy = this.level.endboss;
-        if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
-            this.character.hit();
-            this.statusbarHealth.setPercentage(this.character.energy);
+        if(!enemy.isDead()) {
+            if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
+                this.character.hit();
+                this.statusbarHealth.setPercentage(this.character.energy);
+            }
         }
     }
 

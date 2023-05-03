@@ -41,7 +41,14 @@ class ThrowableObject extends CollectableObject {
         setInterval(() => {
             this.hitEnemy();
             this.hitEndboss();
+            
         }, 30);
+    }
+
+
+    isBottleFlying() {
+            if(this.y < 190) return true;
+            else return false;
     }
 
 
@@ -64,6 +71,7 @@ class ThrowableObject extends CollectableObject {
                     this.hit = true;
                     this.bottleSplash(this);
                     boss.hit();
+                    world.statusbarEndboss.setPercentage(boss.energy);
             }
         }
     }
