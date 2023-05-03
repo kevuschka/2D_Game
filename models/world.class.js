@@ -125,11 +125,14 @@ class World {
                 this.level.endboss.checkTurning(this.character);
                 this.level.endboss.walkFasterWhenAttack(this.character);
                 this.level.endboss.pepeIsToClose(this.character);
-                this.throwableBottle.forEach(bottle => {
-                    if(bottle.isBottleFlying()) {
-                        this.level.endboss.moveFromBottle();
-                    }
-                })
+                if(this.keyboard.keyD) {
+                    this.throwableBottle.forEach(bottle => {
+                        if(bottle.isBottleFlying()) {
+                            this.level.endboss.moveFromBottle();
+                        }
+                    })
+                }
+                
             }
         }, 1000 / 25);
     }
