@@ -6,6 +6,7 @@ class ThrowableObject extends CollectableObject {
     broken = false;
     throwAnimation;
     directionSet = false;
+    hit = false;
 
 
     IMAGES_BOTTLE = [
@@ -56,11 +57,14 @@ class ThrowableObject extends CollectableObject {
 
     hitEndboss() {
         let boss = world.level.endboss;
-        if(this.isCollidingEndboss(boss, 100) &&
-            (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
-            this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
-                this.bottleSplash(this);
-                boss.hit();
+        if(!this.hit) {
+            if(this.isCollidingEndboss(boss, 100) &&
+                (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
+                this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
+                    this.hit = true;
+                    this.bottleSplash(this);
+                    boss.hit();
+            }
         }
     }
 

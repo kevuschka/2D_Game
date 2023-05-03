@@ -92,7 +92,8 @@ class MovableObject extends DrawableObject {
 
 
     hit() {
-        this.energy -= 0.5;
+        if(this instanceof Endboss) this.energy -= 20;
+        else this.energy -= 0.5;
         if(this.energy < 0) this.energy = 0;
         else this.lastHit = new Date().getTime();
     }
@@ -101,7 +102,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 0.5;
+        return timepassed < 1;
     }
 
 
@@ -109,7 +110,7 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
-    
+
     animateHurting(images) {
         this.animateImages(images);
     }
