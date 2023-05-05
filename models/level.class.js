@@ -4,6 +4,7 @@ class Level {
     clouds;
     backgroundObjects;
     collectableObjects;
+    
     level_end_x = 3000;
 
     constructor(enemies, endboss, clouds, backgroundObjects, collectableObjects) {

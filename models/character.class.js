@@ -7,6 +7,7 @@ class Character extends MovableObject {
     speed = 3;
     lastMove;
     sleeping = false;
+    superpower = false;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -54,6 +55,20 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png',
     ]
+
+
+    IMAGES_JUMPING_SPECIAL = [
+        'img/10_character_pepe_super/J-31.png',
+        'img/10_character_pepe_super/J-32.png',
+        'img/10_character_pepe_super/J-33.png',
+        'img/10_character_pepe_super/J-34.png',
+        'img/10_character_pepe_super/J-35.png',
+        'img/10_character_pepe_super/J-36.png',
+        'img/10_character_pepe_super/J-37.png',
+        'img/10_character_pepe_super/J-38.png',
+        'img/10_character_pepe_super/J-39.png'
+    ]
+
 
     IMAGES_HURTING = [
         'img/2_character_pepe/4_hurt/H-41.png',
