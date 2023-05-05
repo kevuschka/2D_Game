@@ -200,10 +200,10 @@ class Character extends MovableObject {
     }
 
 
-    walkindSound() {
-        this.walking_sound.pause();
-            this.walking_sound.currentTime = 0;
-    }
+    // walkingSound() {
+    //     this.walking_sound.pause();
+    //         this.walking_sound.currentTime = 0;
+    // }
 
 
     jump() {
