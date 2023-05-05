@@ -121,17 +121,10 @@ class World {
         setInterval(()=> {
             this.checkCollision();
             this.checkThrowableObject();
-            if(!this.level.endboss.isDead()) {
+            if(!this.level.endboss.isDead() && !this.character.isDead()) {
                 this.level.endboss.checkTurning(this.character);
                 this.level.endboss.walkFasterWhenAttack(this.character);
                 this.level.endboss.pepeIsToClose(this.character);
-                if(this.keyboard.keyD) {
-                    this.throwableBottle.forEach(bottle => {
-                        if(bottle.isBottleFlying()) {
-                            this.level.endboss.moveFromBottle();
-                        }
-                    })
-                }
                 
             }
         }, 1000 / 25);
@@ -164,10 +157,10 @@ class World {
     checkCollisionChicken() {
         this.level.enemies.forEach((enemy) => 
             {
-                if(this.character.isCollidingFromTop(enemy, 40, -40, 20, 40) && !this.character.isDead() && !enemy.dead && this.character.speedY < 0) {
-                    enemy.dead = true;
-                    this.character.speedY = 10;
-                    
+                if(this.character.isCollidingFromTop(enemy, 40, -40, 20, 40) && !this.character.isDead() && 
+                    !enemy.dead && this.character.speedY < 0) {
+                        enemy.dead = true;
+                        this.character.speedY = 10;
                 }
                 if(this.character.isColliding(enemy, 35, 0, 20) && !this.character.isDead() && !enemy.dead) {
                         this.character.hit();
@@ -180,7 +173,7 @@ class World {
     checkCollisionWithEndboss() {
         let enemy = this.level.endboss;
         if(!enemy.isDead()) {
-            if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead()) {
+            if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead() && !enemy.hurt) {
                 this.character.hit();
                 this.statusbarHealth.setPercentage(this.character.energy);
             }

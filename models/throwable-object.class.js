@@ -46,12 +46,6 @@ class ThrowableObject extends CollectableObject {
     }
 
 
-    isBottleFlying() {
-            if(this.y < 190) return true;
-            else return false;
-    }
-
-
     hitEnemy() {
         world.level.enemies.forEach(enemy => {
             if(this.isColliding(enemy, 20, 35, 20) && !enemy.dead && !this.broken) {
@@ -64,7 +58,7 @@ class ThrowableObject extends CollectableObject {
 
     hitEndboss() {
         let boss = world.level.endboss;
-        if(!this.hit) {
+        if(!this.hit && !world.level.endboss.isDead()) {
             if(this.isCollidingEndboss(boss, 100) &&
                 (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
                 this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {

@@ -117,7 +117,7 @@ class Endboss extends MovableObject {
             this.hurt = true;
             this.hurtingAnimation = setInterval(() => {
                 this.animateHurting(this.IMAGES_HURTING);
-            }, 100);
+            }, 200);
         }
     }
 
@@ -155,8 +155,8 @@ class Endboss extends MovableObject {
     }
 
     pepeIsToClose(pepe) {
-        if(pepe.x > this.x - 20 && 
-            pepe.x < this.x + this.width + 20) {
+        if(pepe.x > this.x + 20 && 
+            pepe.x < this.x + this.width - 20) {
                 this.animateEndbossAttacking();
         }
     }
@@ -195,14 +195,4 @@ class Endboss extends MovableObject {
         this.attacking = false;
     }
 
-
-    moveFromBottle() {
-        let position = this.x;
-        setTimeout(() => {
-            this.x = position;
-        }, 1000);
-        if(this.turnLeft) {
-            this.x += 100;
-        } else this.x -= 100;
-    }
 }

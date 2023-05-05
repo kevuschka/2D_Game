@@ -69,26 +69,40 @@ class MovableObject extends DrawableObject {
 
 
     isCollidingEndbossHead(enemy, offSetLeft, offSetUp, headX, headY) {
+        console.log('enboss other direction:', enemy.otherDirection);
+        if(!enemy.otherDirection) {
+            return this.y + this.height  < enemy.y  + headY + offSetUp &&
+            (
+                (this.x + this.width > enemy.x + offSetLeft &&
+                this.x                < enemy.x + offSetLeft) || 
+                (this.x + this.width  > enemy.x  + headX + offSetLeft &&
+                this.x                < enemy.x + headX + offSetLeft)
+            )
+        } else return this.isCollidingEndbossHeadFromRight(enemy, offSetUp, headX, headY)
+    }
+
+
+    isCollidingEndbossHeadFromRight(enemy, offSetUp, headX, headY) {
         return this.y + this.height  < enemy.y  + headY + offSetUp &&
         (
-            (this.x + this.width > enemy.x + offSetLeft &&
-            this.x                < enemy.x + offSetLeft) || 
-            (this.x + this.width  > enemy.x  + headX + offSetLeft &&
-            this.x                < enemy.x + headX + offSetLeft)
+            (this.x + this.width > enemy.x + enemy.width - 60 &&
+            this.x                < enemy.x + enemy.width - 60) || 
+            (this.x + this.width  > enemy.x + enemy.width - headX - 60 &&
+            this.x                < enemy.x + enemy.width - headX - 60)
         )
     }
     
 
     isCollidingEndbossBody(enemy, offSetLeft, offSetRight, offSetUp, headY) {
         return this.y + this.height  > enemy.y + headY + offSetUp &&
-        (
-            (this.x + this.width > enemy.x + offSetLeft + 20 &&
-            this.x                < enemy.x + offSetLeft + 20) || 
-            (this.x + this.width  > enemy.x + enemy.width + offSetRight  &&
-            this.x                < enemy.x + enemy.width + offSetRight) || 
-            (this.x               > enemy.x + offSetLeft &&
-            this.x + this.width   < enemy.x + enemy.width + offSetRight)
-        )
+            (
+                (this.x + this.width > enemy.x + offSetLeft + 20 &&
+                this.x                < enemy.x + offSetLeft + 20) || 
+                (this.x + this.width  > enemy.x + enemy.width + offSetRight  &&
+                this.x                < enemy.x + enemy.width + offSetRight) || 
+                (this.x               > enemy.x + offSetLeft &&
+                this.x + this.width   < enemy.x + enemy.width + offSetRight)
+            )
     }
 
 
