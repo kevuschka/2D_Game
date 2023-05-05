@@ -5,11 +5,15 @@ class Endboss extends MovableObject {
     height = 400;
     hurtingAnimation;
     walkingAnimation;
+    alertAnimation;
     attackingAnimation;
     deadAnimation;
     walking = false;
     attacking = false;
     turnLeft = true;
+    spotted = false;
+    alert = false;
+    alertDone = false;
     // world;
 
     IMAGES_WALKING = [
@@ -76,7 +80,7 @@ class Endboss extends MovableObject {
                 this.animateEndbossHurting();
             } else if(this.isDead()) {
                 this.animateEndbossDead();
-            } else {
+            } else if(!this.attacking && !this.alert) {
                 this.animateEndbossWalking();
             }
         }, 1000 / 60);
@@ -129,36 +133,18 @@ class Endboss extends MovableObject {
             this.dead = true;
             this.deadAnimation = setInterval(() => {
                 this.animateImages(this.IMAGES_DEAD);
-                this.endAtLastPicture();
+                this.endAtLastPicture('img/4_enemie_boss_chicken/5_dead/G26.png', this.deadAnimation);
             }, 200);
         }
     }
 
 
-    stopHurting() {
-        this.hurt = false;
-        
-        this.animateImages(this.IMAGES_WALKING);
-    }
-
-
-    animateAttack() {
-            this.animateImages(this.IMAGES_ATTACK);
-    }
-
-
-    endAtLastPicture() {
-        if(this.img == this.imageCache['img/4_enemie_boss_chicken/5_dead/G26.png']) {
-            clearInterval(this.deadAnimation);
-            this.y = 150;
-        }
-    }
 
     pepeIsToClose(pepe) {
         if(pepe.x > this.x + 20 && 
             pepe.x < this.x + this.width - 20) {
                 this.animateEndbossAttacking();
-        }
+        } else this.attacking = false;
     }
 
     
@@ -174,11 +160,48 @@ class Endboss extends MovableObject {
     }
 
 
-    walkFasterWhenAttack(pepe) {
+    spotting(pepe) {
         if(this.x - 350 < pepe.x &&
-            pepe.x < this.x + this.width + 350) {
-                this.speed = 3;
-        } else this.speed = 0.12;
+            pepe.x < this.x + this.width + 250) {
+                // debugger;
+                if(!this.spotted) this.animateEndbossAlert();
+                else if(this.alertDone) this.walkFasterWhenAttackPepe();
+        } else this.notSpotted();
+    }
+
+
+    notSpotted() {
+        this.speed = 0.12;
+        this.spotted = false;
+        this.alert = false;
+        this.alertDone = false;
+    }
+
+
+    animateEndbossAlert() {
+        this.clearAllAnimations();
+        this.resetAllValues();
+        this.spotted = true;
+        this.alert = true;
+        this.alertAnimation = setInterval(() => {
+            this.animateImages(this.IMAGES_ALERT);
+            this.endAtLastPicture('img/4_enemie_boss_chicken/2_alert/G12.png', this.alertAnimation);
+        }, 200);
+    }
+
+
+    walkFasterWhenAttackPepe() {
+        this.alert = false;
+        this.speed = 3;
+    }
+
+
+    endAtLastPicture(path, interval) {
+        if(this.img == this.imageCache[path]) {
+            clearInterval(interval);
+            // this.y = 150;
+            this.alertDone = true;
+        }
     }
 
 
@@ -186,6 +209,7 @@ class Endboss extends MovableObject {
         clearInterval(this.walkingAnimation);
         clearInterval(this.hurtingAnimation);
         clearInterval(this.attackingAnimation);
+        clearInterval(this.alertAnimation);
     }
 
 
@@ -193,6 +217,7 @@ class Endboss extends MovableObject {
         this.hurt = false;
         this.walking = false;
         this.attacking = false;
+        this.alert = false;
     }
 
 }

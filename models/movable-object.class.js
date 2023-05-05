@@ -69,7 +69,6 @@ class MovableObject extends DrawableObject {
 
 
     isCollidingEndbossHead(enemy, offSetLeft, offSetUp, headX, headY) {
-        console.log('enboss other direction:', enemy.otherDirection);
         if(!enemy.otherDirection) {
             return this.y + this.height  < enemy.y  + headY + offSetUp &&
             (

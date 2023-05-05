@@ -127,11 +127,11 @@ class Character extends MovableObject {
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                         this.moveRight();
-                        this.moveBackgroundRight();
+                        this.world.moveBackgroundRight();
                         this.otherDirection = false;
                     } else if(this.world.keyboard.LEFT && this.x >= -200) {
                         this.moveLeft();
-                        this.moveBackgroundLeft();
+                        this.world.moveBackgroundLeft();
                         this.otherDirection = true;
                     }
                 }
@@ -198,26 +198,6 @@ class Character extends MovableObject {
         this.speedY = 20;
     }
 
-
-    moveBackgroundRight() {
-        for (let i = 0; i < 8; i++)
-            this.world.level.clouds[i].x += 1.0;  
-        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
-            this.world.level.backgroundObjects[8+i].x += 0.8;
-        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
-            this.world.level.backgroundObjects[16+i].x += 0.4;
-        
-    }
-
-
-    moveBackgroundLeft() {
-        for (let i = 0; i < 8; i++)
-            this.world.level.clouds[i].x -= 1;  
-        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
-            this.world.level.backgroundObjects[8+i].x -= 0.8;
-        for (let i = 0; i < this.world.level.backgroundObjects.length/4; i++) 
-            this.world.level.backgroundObjects[16+i].x -= 0.4;   
-    }
 
 
     isSleeping() {

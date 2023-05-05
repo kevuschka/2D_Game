@@ -50,7 +50,8 @@ class World {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarCoin);
-        if(this.character.x > this.level.endboss.x - 580) {
+        if(this.character.x > this.level.endboss.x - 580 &&
+            this.character.x < this.level.endboss.x + 680) {
             this.addToMap(this.statusbarEndboss);
             this.addToMap(this.statusbarIconEndboss);
         }
@@ -123,7 +124,8 @@ class World {
             this.checkThrowableObject();
             if(!this.level.endboss.isDead() && !this.character.isDead()) {
                 this.level.endboss.checkTurning(this.character);
-                this.level.endboss.walkFasterWhenAttack(this.character);
+                this.level.endboss.spotting(this.character);
+                // this.level.endboss.walkFasterWhenAttack(this.character);
                 this.level.endboss.pepeIsToClose(this.character);
                 
             }
@@ -178,6 +180,27 @@ class World {
                 this.statusbarHealth.setPercentage(this.character.energy);
             }
         }
+    }
+
+
+    moveBackgroundRight() {
+        for (let i = 0; i < 8; i++)
+            this.level.clouds[i].x += 1.0;  
+        for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
+            this.level.backgroundObjects[8+i].x += 0.8;
+        for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
+            this.level.backgroundObjects[16+i].x += 0.4;
+        
+    }
+
+
+    moveBackgroundLeft() {
+        for (let i = 0; i < 8; i++)
+            this.level.clouds[i].x -= 1;  
+        for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
+            this.level.backgroundObjects[8+i].x -= 0.8;
+        for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
+            this.level.backgroundObjects[16+i].x -= 0.4;   
     }
 
 }
