@@ -93,7 +93,9 @@ class World {
 
         if( 
             mo instanceof Endboss || 
-            mo instanceof CollectableObject) {
+            mo instanceof CollectableObject || 
+            mo instanceof BarrierObject || 
+            mo instanceof Character) {
             
             mo.drawFrame(this.ctx);
         }
