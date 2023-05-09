@@ -4,7 +4,11 @@ let enemy = [];
 
 const level1 = new Level(
         renderEnemyObjects(),
-        new Endboss(),
+        [
+            new Endboss(2430),
+            new Endboss(3500)
+        ],
+        
         renderCloudObjects(),
         renderBackgroundObjects(),
     [
@@ -17,16 +21,16 @@ const level1 = new Level(
         new CollectableObject('Bottle')
     ],
     [
-        new BarrierObject(3400),
+        new BarrierObject(3300),
         new BarrierObject(3900)
     ]
 )
 
 function renderEnemyObjects() {
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 2; i++) {
         enemy.push(new Chicken());
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1; i++) {
         enemy.push(new Chicken('small'));
     }
     return enemy;

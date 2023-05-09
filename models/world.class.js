@@ -50,17 +50,17 @@ class World {
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarCoin);
-        if(this.character.x > this.level.endboss.x - 580 &&
-            this.character.x < this.level.endboss.x + 680) {
+        if(this.character.nearEndboss()) {
             this.addToMap(this.statusbarEndboss);
             this.addToMap(this.statusbarIconEndboss);
         }
+
         
         this.ctx.translate(this.camera_x, 0); // flip back to right (unnormal)
         
         
         this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.level.endboss);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.level.collectableObjects);
         this.addObjectsToMap(this.throwableBottle);
         this.addToMap(this.character);
@@ -92,8 +92,7 @@ class World {
         mo.draw(this.ctx);
 
         if( 
-            mo instanceof Endboss || 
-            mo instanceof CollectableObject || 
+            mo instanceof Endboss ||
             mo instanceof BarrierObject || 
             mo instanceof Character) {
             
@@ -124,13 +123,8 @@ class World {
         setInterval(()=> {
             this.checkCollision();
             this.checkThrowableObject();
-            if(!this.level.endboss.isDead() && !this.character.isDead()) {
-                this.level.endboss.checkTurning(this.character);
-                this.level.endboss.spotting(this.character);
-                // this.level.endboss.walkFasterWhenAttack(this.character);
-                this.level.endboss.pepeIsToClose(this.character);
-                
-            }
+            this.checkEndbossBehavior();
+            
         }, 1000 / 25);
     }
 
@@ -152,9 +146,23 @@ class World {
         return timepassed > 0.3;
     }
 
+
+    checkEndbossBehavior() {
+        this.level.endboss.forEach(boss => {
+            if(!boss.isDead() && !this.character.isDead()) {
+                boss.checkTurning(this.character);
+                boss.spotting(this.character);
+                boss.pepeIsToClose(this.character);
+                
+            }
+        });
+    }
+
+
     checkCollision() {
         this.checkCollisionChicken();
         this.checkCollisionWithEndboss();
+        this.checkCollisionCactus();
         
     }
 
@@ -166,7 +174,7 @@ class World {
                         enemy.dead = true;
                         this.character.speedY = 10;
                 }
-                if(this.character.isColliding(enemy, 35, 0, 20) && !this.character.isDead() && !enemy.dead) {
+                if(this.character.isColliding(enemy, 35, 35, 20) && !this.character.isDead() && !enemy.dead) {
                         this.character.hit();
                         this.statusbarHealth.setPercentage(this.character.energy);
                 }
@@ -175,13 +183,25 @@ class World {
 
 
     checkCollisionWithEndboss() {
-        let enemy = this.level.endboss;
-        if(!enemy.isDead()) {
-            if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead() && !enemy.hurt) {
+        this.level.endboss.forEach(enemy => {
+            if(!enemy.isDead()) {
+                if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead() && !enemy.hurt) {
+                    this.character.hit();
+                    this.statusbarHealth.setPercentage(this.character.energy);
+                }
+            }
+        })
+        
+    }
+
+
+    checkCollisionCactus() {
+        this.level.barrierObjects.forEach((barrier) => {
+            if(this.character.isColliding(barrier, 70, 60, 20) && !this.character.isDead()) {
                 this.character.hit();
                 this.statusbarHealth.setPercentage(this.character.energy);
             }
-        }
+        });
     }
 
 

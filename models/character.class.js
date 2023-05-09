@@ -8,6 +8,7 @@ class Character extends MovableObject {
     lastMove;
     sleeping = false;
     superpower = false;
+    barrier = 10000;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -141,13 +142,18 @@ class Character extends MovableObject {
                 }
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                        this.moveRight();
-                        this.world.moveBackgroundRight();
+                            // console.log('not hit cactus:', !this.hitCactus());
                         this.otherDirection = false;
+                        if(!this.hitCactus(25)) {
+                            this.moveRight();
+                            this.world.moveBackgroundRight();
+                        }
                     } else if(this.world.keyboard.LEFT && this.x >= -200) {
-                        this.moveLeft();
-                        this.world.moveBackgroundLeft();
                         this.otherDirection = true;
+                        if(!this.hitCactus(10)) {
+                            this.moveLeft();
+                            this.world.moveBackgroundLeft();
+                        }
                     }
                 }
                 this.world.camera_x = -this.x + 200;
@@ -164,6 +170,31 @@ class Character extends MovableObject {
                 if(!this.sleeping) this.animateIdle();
             } 
         }, 300);
+    }
+
+
+    
+    hitCactus(offSet) {
+        let pepe;
+        if(!this.otherDirection) pepe = this.x + this.width - offSet;
+        else pepe = this.x + offSet;
+        for (let i = 0; i < this.world.level.barrierObjects.length; i++) {
+            let cactus = this.world.level.barrierObjects[i];
+            if(pepe >= (cactus.x + (cactus.width/2) - 1 ) 
+                && pepe <= (cactus.x + (cactus.width/2) + 1) 
+                && ((this.y + this.height - 20 > cactus.y))) return true;
+            else return false;
+        }
+    }
+
+
+    nearEndboss() {
+        for (let i = 0; i < this.world.level.endboss.length; i++) {
+            let enemy = this.world.level.endboss[i];
+            if(this.x > enemy.x - 580 &&
+                this.x < enemy.x + 680) return true;
+        }
+        return false;
     }
 
 

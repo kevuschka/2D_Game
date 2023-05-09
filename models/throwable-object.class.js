@@ -57,17 +57,20 @@ class ThrowableObject extends CollectableObject {
 
 
     hitEndboss() {
-        let boss = world.level.endboss;
-        if(!this.hit && !world.level.endboss.isDead()) {
-            if(this.isCollidingEndboss(boss, 100) &&
-                (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
-                this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
-                    this.hit = true;
-                    this.bottleSplash(this);
-                    boss.hit();
-                    world.statusbarEndboss.setPercentage(boss.energy);
+        // let boss = world.level.endboss;
+        world.level.endboss.forEach(boss => {
+            if(!this.hit && !boss.isDead()) {
+                if(this.isCollidingEndboss(boss, 100) &&
+                    (this.isCollidingEndbossHead(boss, 60, 100, 35, 100) ||
+                    this.isCollidingEndbossBody(boss, 60, -50, 100, 100)))  {
+                        this.hit = true;
+                        this.bottleSplash(this);
+                        boss.hit();
+                        world.statusbarEndboss.setPercentage(boss.energy);
+                }
             }
-        }
+        })
+        
     }
 
 
