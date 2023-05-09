@@ -209,9 +209,9 @@ class World {
         for (let i = 0; i < this.level.clouds.length; i++)
             this.level.clouds[i].x += 1.0;  
         for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
-            this.level.backgroundObjects[12+i].x += 0.8;
+            this.level.backgroundObjects[12+i].x += 1;
         for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
-            this.level.backgroundObjects[24+i].x += 0.4;
+            this.level.backgroundObjects[24+i].x += 0.6;
         
     }
 
@@ -220,9 +220,9 @@ class World {
         for (let i = 0; i < 8; i++)
             this.level.clouds[i].x -= 1;  
         for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
-            this.level.backgroundObjects[(this.level.backgroundObjects.length/4)+i].x -= 0.8;
+            this.level.backgroundObjects[(this.level.backgroundObjects.length/4)+i].x -= 1;
         for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
-            this.level.backgroundObjects[(this.level.backgroundObjects.length/4)*2+i].x -= 0.4;   
+            this.level.backgroundObjects[(this.level.backgroundObjects.length/4)*2+i].x -= 0.6;   
     }
 
 }

@@ -129,6 +129,7 @@ class Endboss extends MovableObject {
 
     animateEndbossDead() {
         if(!this.dead) {
+            this.removeEndboss();
             this.clearAllAnimations();
             this.resetAllValues();
             this.dead = true;
@@ -137,6 +138,16 @@ class Endboss extends MovableObject {
                 this.endAtLastPicture('img/4_enemie_boss_chicken/5_dead/G26.png', this.deadAnimation);
             }, 200);
         }
+    }
+
+
+    removeEndboss() {
+        setTimeout(() => {
+            this.applyGravity();
+        }, 4000);
+        setTimeout(() => {
+            world.level.endboss.splice(world.level.endboss.indexOf(this), 1);
+        }, 10000);
     }
 
 
