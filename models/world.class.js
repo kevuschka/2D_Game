@@ -12,6 +12,7 @@ class World {
     camera_x = 0;
     throwableBottle = [];
     lastKeyDPressed;
+    gift;
     getGift = false;
     
 
@@ -136,7 +137,6 @@ class World {
             if(this.keyboard.keyD) {
                 this.lastKeyDPressed = new Date().getTime();
                 let bottle = new ThrowableObject(this.character.x, this.character.y);
-                console.log('bottle:', bottle);
                 this.throwableBottle.push(bottle);
             }
         }
@@ -165,7 +165,7 @@ class World {
         if(this.level.endboss[0].isDead() && this.level.endboss.length != 1 && !this.getGift) {
             this.getGift = true;
             let x = this.level.endboss[0].x;
-            this.level.collectableObjects.push(new CollectableObject('Drink', x));
+            this.gift = new GiftObject(x);
         }
     }
 

@@ -24,6 +24,7 @@ const level1 = new Level(
         new BarrierObject(3300),
         new BarrierObject(3900)
     ]
+    
 )
 
 function renderEnemyObjects() {
