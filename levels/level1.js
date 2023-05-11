@@ -18,7 +18,8 @@ const level1 = new Level(
         new CollectableObject('Coin'),
         new CollectableObject('Coin'),
         new CollectableObject('Bottle'),
-        new CollectableObject('Bottle')
+        new CollectableObject('Bottle'),
+        new CollectableObject('Drink', 3100)
     ],
     [
         new BarrierObject(3300),

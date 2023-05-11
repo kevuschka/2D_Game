@@ -7,11 +7,13 @@ class CollectableObject extends MovableObject {
 
     IMAGE_BOTTLE = 'img/6_salsa_bottle/2_salsa_bottle_on_ground.png';
 
-    constructor(type) {
+    IMAGE_DRINK = 'img/drink.png';
+
+    constructor(type, x = 0) {
         super().type = type;
         if(type == 'Coin') this.coin();
         else this.bottle();
-        this.x = Math.random() * 2300; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        if(x = 0) this.x = Math.random() * 2300; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
     }
 
 
