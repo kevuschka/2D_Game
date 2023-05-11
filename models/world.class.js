@@ -136,6 +136,7 @@ class World {
             if(this.keyboard.keyD) {
                 this.lastKeyDPressed = new Date().getTime();
                 let bottle = new ThrowableObject(this.character.x, this.character.y);
+                console.log('bottle:', bottle);
                 this.throwableBottle.push(bottle);
             }
         }

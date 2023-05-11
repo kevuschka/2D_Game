@@ -41,7 +41,6 @@ class ThrowableObject extends CollectableObject {
         setInterval(() => {
             this.hitEnemy();
             this.hitEndboss();
-            
         }, 30);
     }
 
