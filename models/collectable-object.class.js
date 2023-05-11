@@ -22,13 +22,13 @@ class CollectableObject extends MovableObject {
         this.height = 150;
         this.loadImage('img/8_coin/coin_1.png');
         this.loadImages(this.IMAGES_COIN);
-        this.animate(this.IMAGES_COIN);
+        this.animateCoin();
     }
 
 
-    animate(images) {
+    animateCoin() {
         setInterval(() => {
-            this.animateImages(images);
+            this.animateImages(this.IMAGES_COIN);
         }, 400);
     }
 

@@ -12,7 +12,6 @@ class World {
     camera_x = 0;
     throwableBottle = [];
     lastKeyDPressed;
-    gift;
     getGift = false;
     
 
@@ -46,6 +45,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.barrierObjects);
+        if(this.level.giftObject) this.addObjectsToMap(this.level.giftObject);
         
         // --- 
         this.ctx.translate(-this.camera_x, 0); // flip back to left (normal)
@@ -162,10 +162,10 @@ class World {
 
 
     firstEndbossGift() {
-        if(this.level.endboss[0].isDead() && this.level.endboss.length != 1 && !this.getGift) {
+        if(this.level.endboss.length != 1 &&  !this.getGift && this.level.endboss[0].isDead()) {
+            let x = this.level.endboss[0].x + this.level.endboss[0].width;
+            this.level.giftObject.push(new GiftObject(x));
             this.getGift = true;
-            let x = this.level.endboss[0].x;
-            this.gift = new GiftObject(x);
         }
     }
 
