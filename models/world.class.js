@@ -112,6 +112,7 @@ class World {
         mo.x = mo.x * -1; // Position von mo
     }
 
+
     // Context wieder zurückspiegeln, damit der Rest (ausser Character) normal gerendert wird.
     flipImageBack(mo) {
         mo.x = mo.x * -1;
@@ -124,7 +125,7 @@ class World {
             this.checkCollision();
             this.checkThrowableObject();
             this.checkEndbossBehavior();
-            
+            this.firstEndbossGift();
         }, 1000 / 25);
     }
 
@@ -138,7 +139,7 @@ class World {
             }
         }
     }
-    
+
 
     notThrowing() {
         let timepassed = new Date().getTime() - this.lastKeyDPressed;
@@ -153,18 +154,25 @@ class World {
                 boss.checkTurning(this.character);
                 boss.spotting(this.character);
                 boss.pepeIsToClose(this.character);
-                
             }
         });
+    }
+
+
+    firstEndbossGift() {
+        if(this.level.endboss[0].isDead() && this.level.endboss.length != 1) {
+            let x = this.level.endboss[0].x;
+            this.level.collectableObjects.push(new CollectableObject('Drink', x));
+        }
     }
 
 
     checkCollision() {
         this.checkCollisionChicken();
         this.checkCollisionWithEndboss();
-        this.checkCollisionCactus();
-        
+        this.checkCollisionCactus();    
     }
+
 
     checkCollisionChicken() {
         this.level.enemies.forEach((enemy) => 

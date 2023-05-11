@@ -12,8 +12,10 @@ class CollectableObject extends MovableObject {
     constructor(type, x = 0) {
         super().type = type;
         if(type == 'Coin') this.coin();
-        else this.bottle();
-        if(x = 0) this.x = Math.random() * 2300; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        else if(type == 'Bottle') this.bottle();
+        else this.drink();
+        if(!x) this.x = Math.random() * 2300; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        else this.x = x;
     }
 
 
@@ -38,5 +40,18 @@ class CollectableObject extends MovableObject {
         this.width = 80;
         this.height = 80;
         this.loadImage(this.IMAGE_BOTTLE);
+    }
+
+
+    drink() {
+        this.y = 0;
+        this.width = 60;
+        this.height = 80;
+        this.loadImage(this.IMAGE_DRINK);
+        this.applyGravity();
+        if(this.y == 350) {
+            this.acceleration = 0;
+            this.speedY = 0;
+        }
     }
 }
