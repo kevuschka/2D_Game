@@ -154,7 +154,7 @@ class Endboss extends MovableObject {
 
     pepeIsToClose(pepe) {
         if(pepe.x > this.x + 20 && 
-            pepe.x < this.x + this.width - 20) {
+            pepe.x < this.x + (this.width/2) + 20) {
                 this.animateEndbossAttacking();
         } else this.attacking = false;
     }
@@ -175,7 +175,6 @@ class Endboss extends MovableObject {
     spotting(pepe) {
         if(this.x - 350 < pepe.x &&
             pepe.x < this.x + this.width + 250) {
-                // debugger;
                 if(!this.spotted) this.animateEndbossAlert();
                 else if(this.alertDone) this.walkFasterWhenAttackPepe();
         } else this.notSpotted();

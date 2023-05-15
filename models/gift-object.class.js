@@ -28,7 +28,7 @@ class GiftObject extends CollectableObject {
     gettingDrink() {
         let fallDown = setInterval(() => {
             this.y += 5;
-            if(this.y == 350) clearInterval(fallDown);
+            if(this.y == 365) clearInterval(fallDown);
         }, 50);
     }
 

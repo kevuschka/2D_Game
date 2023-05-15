@@ -14,7 +14,6 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png'
     ];
 
-
     IMAGES_HEALTH_ENDBOSS = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/orange/100.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/orange/80.png',
@@ -46,28 +45,39 @@ class Statusbar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
     ];
 
+    IMAGE_DRINK = [
+        'img/gift/drink_1.png'
+    ];
+
     percentage = 100;
     IMAGES = [];
 
-    constructor(number) {
-        if(number == 1)  super().IMAGES = this.IMAGES_HEALTH;
-        else if(number == 2) {
+
+    constructor(name) {
+        if(name == 'Health')  super().IMAGES = this.IMAGES_HEALTH;
+        else if(name == 'Bottle') {
             super().IMAGES = this.IMAGES_BOTTLE;
             this.y = 40;
-        } else if(number == 3) {
+        } else if(name == 'Coin') {
             super().IMAGES = this.IMAGES_COIN;
             this.y = 80;
-        } else if(number == 4) {
+        } else if(name == 'Endboss') {
             super().IMAGES = this.IMAGES_HEALTH_ENDBOSS;
             this.otherDirection = true;
             this.loadImage('img/7_statusbars/3_icons/icon_health_endboss.png');
             this.x = 560;
-        } else if(number == 5) {
+        } else if(name == 'EndbossIcon') {
             super().IMAGES = this.IMAGES_ICON_ENDBOSS;
             this.x = 677;
             this.y = 6;
             this.width = 40;
             this.otherDirection = true;
+        } else {
+            super().IMAGES = this.IMAGE_DRINK;
+            this.x = 180;
+            this.y = 10;
+            this.width = 15;
+            this.height = 30;
         }
         this.loadImages(this.IMAGES);
         this.setPercentage(100);

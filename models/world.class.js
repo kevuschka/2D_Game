@@ -1,11 +1,12 @@
 class World {
     character = new Character();
     level = level1;
-    statusbarHealth = new Statusbar(1);
-    statusbarBottle = new Statusbar(2);
-    statusbarCoin = new Statusbar(3);
-    statusbarEndboss = new Statusbar(4);
-    statusbarIconEndboss = new Statusbar(5);
+    statusbarHealth = new Statusbar('Health');
+    statusbarBottle = new Statusbar('Bottle');
+    statusbarCoin = new Statusbar('Coin');
+    statusbarEndboss = new Statusbar('Endboss');
+    statusbarIconEndboss = new Statusbar('EndbossIcon');
+    statusbarDrink = new Statusbar('Drink');
     ctx;
     canvas;
     keyboard;
@@ -13,6 +14,7 @@ class World {
     throwableBottle = [];
     lastKeyDPressed;
     getGift = false;
+    pepeDrinkGift = false;
     
 
     constructor(canvas, keyboard) {
@@ -45,7 +47,6 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.barrierObjects);
-        if(this.level.giftObject) this.addObjectsToMap(this.level.giftObject);
         
         // --- 
         this.ctx.translate(-this.camera_x, 0); // flip back to left (normal)
@@ -56,6 +57,7 @@ class World {
             this.addToMap(this.statusbarEndboss);
             this.addToMap(this.statusbarIconEndboss);
         }
+        if(this.pepeDrinkGift) this.addToMap(this.statusbarDrink);
 
         
         this.ctx.translate(this.camera_x, 0); // flip back to right (unnormal)
@@ -63,6 +65,7 @@ class World {
         
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
+        if(this.level.giftObject) this.addObjectsToMap(this.level.giftObject);
         this.addObjectsToMap(this.level.collectableObjects);
         this.addObjectsToMap(this.throwableBottle);
         this.addToMap(this.character);
@@ -96,7 +99,8 @@ class World {
         if( 
             mo instanceof Endboss ||
             mo instanceof BarrierObject || 
-            mo instanceof Character) {
+            mo instanceof Character || 
+            mo instanceof CollectableObject) {
             
             mo.drawFrame(this.ctx);
         }
@@ -162,7 +166,7 @@ class World {
 
 
     firstEndbossGift() {
-        if(this.level.endboss.length != 1 &&  !this.getGift && this.level.endboss[0].isDead()) {
+        if(this.level.endboss.length != 1 && !this.getGift && this.level.endboss[0].isDead()) {
             let x = this.level.endboss[0].x + this.level.endboss[0].width;
             this.level.giftObject.push(new GiftObject(x));
             this.getGift = true;
@@ -173,7 +177,8 @@ class World {
     checkCollision() {
         this.checkCollisionChicken();
         this.checkCollisionWithEndboss();
-        this.checkCollisionCactus();    
+        this.checkCollisionCactus();  
+        // this.checkCollisionItem();  
     }
 
 
@@ -196,7 +201,7 @@ class World {
     checkCollisionWithEndboss() {
         this.level.endboss.forEach(enemy => {
             if(!enemy.isDead()) {
-                if(this.character.isColliding(enemy, 70, 220, 20) && !this.character.isDead() && !enemy.hurt) {
+                if(this.character.isColliding(enemy, 70, 120, 20) && !this.character.isDead() && !enemy.hurt) {
                     this.character.hit();
                     this.statusbarHealth.setPercentage(this.character.energy);
                 }
@@ -212,6 +217,19 @@ class World {
                 this.character.hit();
                 this.statusbarHealth.setPercentage(this.character.energy);
             }
+        });
+    }
+
+
+    checkCollisionItem() {
+        this.level.collectableObjects.forEach((item) => {
+            if(!(item instanceof ThrowableObject)) {
+                if(this.character.isColliding(item, 70, 60, 20) && !this.character.isDead()) {
+                    this.character.hit();
+                    this.statusbarHealth.setPercentage(this.character.energy);
+                }
+            }
+            
         });
     }
 
