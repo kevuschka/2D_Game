@@ -14,8 +14,6 @@ class World {
     throwableBottle = [];
     lastKeyDPressed;
     getGift = false;
-    pepeDrinkGift = false;
-    
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -57,11 +55,10 @@ class World {
             this.addToMap(this.statusbarEndboss);
             this.addToMap(this.statusbarIconEndboss);
         }
-        if(this.pepeDrinkGift) this.addToMap(this.statusbarDrink);
+        if(this.character.takesGift) this.addToMap(this.statusbarDrink);
 
         
         this.ctx.translate(this.camera_x, 0); // flip back to right (unnormal)
-        
         
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
@@ -132,6 +129,7 @@ class World {
             this.checkThrowableObject();
             this.checkEndbossBehavior();
             this.firstEndbossGift();
+            this.pepeDrinkGift();
         }, 1000 / 25);
     }
 
@@ -174,11 +172,26 @@ class World {
     }
 
 
+    pepeDrinkGift() {
+        if(this.character.takesGift && !this.character.hasSuperPower) {
+            let lucid_air = [];
+            for (let i = 0; i < this.level.backgroundObjects.length/4; i++) {
+                let x = this.level.backgroundObjects[i].x;
+                lucid_air.push(new BackgroundObject(x,'img/5_background/layers/air_lucid.png'));
+            }
+
+            this.level.backgroundObjects.splice(0,12);
+            this.level.backgroundObjects = lucid_air.concat(this.level.backgroundObjects);
+            this.character.hasSuperPower = true;
+        }
+    }
+
+
     checkCollision() {
         this.checkCollisionChicken();
         this.checkCollisionWithEndboss();
         this.checkCollisionCactus();  
-        // this.checkCollisionItem();  
+        this.checkCollisionGift();  
     }
 
 
@@ -221,16 +234,17 @@ class World {
     }
 
 
-    checkCollisionItem() {
-        this.level.collectableObjects.forEach((item) => {
-            if(!(item instanceof ThrowableObject)) {
-                if(this.character.isColliding(item, 70, 60, 20) && !this.character.isDead()) {
-                    this.character.hit();
-                    this.statusbarHealth.setPercentage(this.character.energy);
+    checkCollisionGift() {
+        if(this.getGift && !this.character.takesGift && !this.character.hasSuperPower) {
+            this.level.giftObject.forEach((gift) => {
+                if(this.character.isColliding(gift, 20, 20 , 20) && 
+                    !this.character.isDead() &&
+                    this.character.y + 90 < gift.y) {
+                    this.character.takesGift = true;
+                    this.level.giftObject = [];
                 }
-            }
-            
-        });
+            });
+        }
     }
 
 

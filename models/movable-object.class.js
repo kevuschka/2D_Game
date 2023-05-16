@@ -44,6 +44,12 @@ class MovableObject extends DrawableObject {
         } else return this.y+this.height < 428;
     }
 
+    isInsideGame() {
+        if(this instanceof Character) {
+            return this.y + 80 > 0;
+        }
+    }
+
 
     isColliding(enemy, offSetLeft, offSetRight, offSetUp) {
         return this.x + this.width > enemy.x + offSetLeft &&

@@ -7,8 +7,9 @@ class Character extends MovableObject {
     speed = 3;
     lastMove;
     sleeping = false;
-    superpower = false;
-    barrier = 10000;
+    // barrier = 10000;
+    takesGift = false;
+    hasSuperPower = false;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -98,8 +99,10 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
+        this.loadImages(this.IMAGES_JUMPING_SPECIAL);
         this.loadImages(this.IMAGES_HURTING);
         this.loadImages(this.IMAGES_DEAD);
+
         this.applyGravity();
         this.animate();
         this.lastMove = new Date().getTime();
@@ -137,9 +140,8 @@ class Character extends MovableObject {
                     background_music.volume = 0.2;
                     this.sleeping = false;
                 }
-                if(this.world.keyboard.SPACE && !this.isAboveGround()) {
-                        this.jump();
-                }
+                if(this.hasSuperPower && this.world.keyboard.SPACE && this.isInsideGame()) this.jump();
+                else if(this.world.keyboard.SPACE && !this.isAboveGround()) this.jump(); 
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                             // console.log('not hit cactus:', !this.hitCactus());
@@ -173,20 +175,21 @@ class Character extends MovableObject {
     }
 
 
-    
+    /////////////////////////
     hitCactus(offSet) {
         let pepe;
         if(!this.otherDirection) pepe = this.x + this.width - offSet;
         else pepe = this.x + offSet;
         for (let i = 0; i < this.world.level.barrierObjects.length; i++) {
             let cactus = this.world.level.barrierObjects[i];
+            if(cactus.x + cactus.width > this.x)////////////////////////////////////////////
             if(pepe >= (cactus.x + (cactus.width/2) - 1 ) 
                 && pepe <= (cactus.x + (cactus.width/2) + 1) 
                 && ((this.y + this.height - 20 > cactus.y))) return true;
             else return false;
         }
     }
-
+////////////////////////////
 
     nearEndboss() {
         for (let i = 0; i < this.world.level.endboss.length; i++) {
@@ -218,7 +221,8 @@ class Character extends MovableObject {
     }
 
     animateJumping() {
-        this.animateImages(this.IMAGES_JUMPING);
+        if(this.hasSuperPower) this.animateImages(this.IMAGES_JUMPING_SPECIAL);
+        else this.animateImages(this.IMAGES_JUMPING);
     }
 
     animateDead() {
@@ -241,7 +245,8 @@ class Character extends MovableObject {
         this.jumping_sound.currentTime = 0; 
         this.jumping_sound.volume = 0.6;
         this.jumping_sound.play();
-        this.speedY = 20;
+        if(this.hasSuperPower) this.speedY = 15;
+        else this.speedY = 20;
     }
 
 

@@ -7,7 +7,7 @@ class Level {
     barrierObjects;
     giftObject;
     
-    level_end_x = 10000;
+    level_end_x = 6666;
 
     constructor(enemies, endboss, clouds, backgroundObjects, collectableObjects, barrierObjects, giftObject) {
         this.enemies = enemies;
