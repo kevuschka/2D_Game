@@ -14,6 +14,7 @@ class World {
     throwableBottle = [];
     lastKeyDPressed;
     getGift = false;
+    giftTimeout = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -164,10 +165,14 @@ class World {
 
 
     firstEndbossGift() {
-        if(this.level.endboss.length != 1 && !this.getGift && this.level.endboss[0].isDead()) {
+        if(this.level.endboss.length != 1 && !this.giftTimeout && 
+            !this.getGift && this.level.endboss[0].isDead()) {
             let x = this.level.endboss[0].x + this.level.endboss[0].width;
-            this.level.giftObject.push(new GiftObject(x));
-            this.getGift = true;
+            this.giftTimeout = true;
+            setTimeout(() => {
+                this.level.giftObject.push(new GiftObject(x));
+                this.getGift = true;
+            }, 5000);
         }
     }
 

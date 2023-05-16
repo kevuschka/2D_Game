@@ -6,7 +6,7 @@ const level1 = new Level(
         renderEnemyObjects(),
         [
             new Endboss(2430),
-            new Endboss(3500)
+            new Endboss(6000)
         ],
         
         renderCloudObjects(),
@@ -22,7 +22,9 @@ const level1 = new Level(
     ],
     [
         new BarrierObject(3300),
-        new BarrierObject(3900)
+        new BarrierObject(3900),
+        new BarrierObject(4800),
+        new BarrierObject(5600)
     ],
     []
 )

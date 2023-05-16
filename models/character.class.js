@@ -182,11 +182,13 @@ class Character extends MovableObject {
         else pepe = this.x + offSet;
         for (let i = 0; i < this.world.level.barrierObjects.length; i++) {
             let cactus = this.world.level.barrierObjects[i];
-            if(cactus.x + cactus.width > this.x)////////////////////////////////////////////
-            if(pepe >= (cactus.x + (cactus.width/2) - 1 ) 
-                && pepe <= (cactus.x + (cactus.width/2) + 1) 
-                && ((this.y + this.height - 20 > cactus.y))) return true;
-            else return false;
+            if(cactus.x + cactus.width > this.x &&
+                cactus.x < this.x + this.width) {
+                if(pepe >= (cactus.x + (cactus.width/2) - 1 ) 
+                    && pepe <= (cactus.x + (cactus.width/2) + 1) 
+                    && ((this.y + this.height - 20 > cactus.y))) return true;
+                else return false;
+            }
         }
     }
 ////////////////////////////
