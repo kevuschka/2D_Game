@@ -4,6 +4,8 @@ class Chicken extends MovableObject {
     width = 60;
     height = 70;
     dead = false;
+    crazyMode = false;
+    letFly = false;
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -24,8 +26,7 @@ class Chicken extends MovableObject {
         super().type = type;
         if(this.type == 'small') this.renderSmallChicken();
         else this.renderNormalChicken();
-        this.x = 500 + Math.random() * 5000; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
-        if(this.x > 3600 && this.x < 4800) this.y = 10 + Math.random() * 365;
+        this.x = 500 + Math.random() * 10000; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
     }
 
     renderSmallChicken() {
@@ -49,10 +50,16 @@ class Chicken extends MovableObject {
             this.moveLeft();
             if(this.dead) {
                 clearInterval(this.animateWalking);
-                if(this.type == 'small') this.loadImage(this.IMAGES_DEAD_SMALL);
-                else this.loadImage(this.IMAGES_DEAD);
+                if(this.type == 'small') {
+                    if(this.letFly) this.fallingDownToEarth();
+                    this.loadImage(this.IMAGES_DEAD_SMALL);
+                } else this.loadImage(this.IMAGES_DEAD);
                 this.clearChickenObject();                
                 clearInterval(this.movingLeft);
+            }
+            if(this.crazyMode && !this.letFly && this.type == 'small') {
+                this.letFly = true;
+                this.y = 10 + Math.random() * 380;
             }
     }, 1000 / 60);
 
@@ -72,6 +79,18 @@ class Chicken extends MovableObject {
         setTimeout(() => {
             world.level.enemies.splice(world.level.enemies.indexOf(this), 1);
         }, 8000);
+    }
+
+
+    fallingDownToEarth() {
+        let falling = setInterval(() => {
+            // debugger;
+            this.y += 3;
+            console.log('chicken y: ', this.y);
+            if(this.y > 378 && this.y < 382) {
+                clearInterval(falling);
+            }
+        }, 80);
     }
 
     

@@ -120,7 +120,7 @@ class MovableObject extends DrawableObject {
 
 
     kill() {
-        this.energy = 0;
+        this.energy -= 10;
     }
 
 

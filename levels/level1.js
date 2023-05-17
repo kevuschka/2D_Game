@@ -33,7 +33,7 @@ function renderEnemyObjects() {
     for (let i = 0; i < 10; i++) {
         enemy.push(new Chicken());
     }
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
         enemy.push(new Chicken('small'));
     }
     return enemy;

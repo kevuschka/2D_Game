@@ -188,6 +188,7 @@ class World {
             this.level.backgroundObjects.splice(0,12);
             this.level.backgroundObjects = lucid_air.concat(this.level.backgroundObjects);
             this.character.hasSuperPower = true;
+            this.level.enemies.forEach((enemy)=>{enemy.crazyMode = true;});
             this.level.barrierObjects.forEach((cactus) => {
                 cactus.move = true;
             });
