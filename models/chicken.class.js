@@ -24,7 +24,8 @@ class Chicken extends MovableObject {
         super().type = type;
         if(this.type == 'small') this.renderSmallChicken();
         else this.renderNormalChicken();
-        this.x = 500 + Math.random() * 3500; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        this.x = 500 + Math.random() * 5000; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        if(this.x > 3600 && this.x < 4800) this.y = 10 + Math.random() * 365;
     }
 
     renderSmallChicken() {

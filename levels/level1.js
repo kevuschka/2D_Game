@@ -30,10 +30,10 @@ const level1 = new Level(
 )
 
 function renderEnemyObjects() {
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 10; i++) {
         enemy.push(new Chicken());
     }
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
         enemy.push(new Chicken('small'));
     }
     return enemy;

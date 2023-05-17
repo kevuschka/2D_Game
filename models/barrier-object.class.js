@@ -3,7 +3,7 @@ class BarrierObject extends MovableObject {
     width = 130;
     height = 250;
     move = false;
-    speed = 3;
+    speed = 5;
     
     constructor(x) {
         super().loadImage('img/cactus.png');
@@ -11,9 +11,9 @@ class BarrierObject extends MovableObject {
     }
 
 
-        movingLeft = setInterval(() => {
-            if(this.move) this.moveLeft();
-        }, 1000 / 60);
+    movingLeft = setInterval(() => {
+        if(this.move) this.moveLeft();
+    }, 1000 / 60);
 
 
 }

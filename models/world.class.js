@@ -197,7 +197,7 @@ class World {
 
     checkCollision() {
         this.checkCollisionChicken();
-        this.checkCollisionWithEndboss();
+        this.checkCollisionEndboss();
         this.checkCollisionCactus();  
         this.checkCollisionGift();  
     }
@@ -219,7 +219,7 @@ class World {
     }
 
 
-    checkCollisionWithEndboss() {
+    checkCollisionEndboss() {
         this.level.endboss.forEach(enemy => {
             if(!enemy.isDead()) {
                 if(this.character.isColliding(enemy, 70, 120, 20) && !this.character.isDead() && !enemy.hurt) {
@@ -235,7 +235,8 @@ class World {
     checkCollisionCactus() {
         this.level.barrierObjects.forEach((barrier) => {
             if(this.character.isColliding(barrier, 70, 60, 20) && !this.character.isDead()) {
-                this.character.hit();
+                if(!this.level.barrierObjects[0].move) this.character.hit();
+                else this.character.kill();
                 this.statusbarHealth.setPercentage(this.character.energy);
             }
         });
