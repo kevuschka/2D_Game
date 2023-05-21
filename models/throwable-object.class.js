@@ -47,7 +47,7 @@ class ThrowableObject extends CollectableObject {
 
     hitEnemy() {
         world.level.enemies.forEach(enemy => {
-            if(this.isColliding(enemy, 20, 35, 20) && !enemy.dead && !this.broken) {
+            if(this.isColliding(enemy, 20, 35, 20, 0) && !enemy.dead && !this.broken) {
                 enemy.dead = true;
                 this.bottleSplash();
             };

@@ -51,11 +51,11 @@ class MovableObject extends DrawableObject {
     }
 
 
-    isColliding(enemy, offSetLeft, offSetRight, offSetUp) {
+    isColliding(enemy, offSetLeft, offSetRight, offSetUp, thisOffSetUp) {
         return this.x + this.width > enemy.x + offSetLeft &&
                 this.y + this.height > enemy.y + offSetUp &&
                 this.x < enemy.x + enemy.width - offSetRight &&
-                this.y < enemy.y + enemy.height;
+                this.y + thisOffSetUp < enemy.y + enemy.height;
     }
 
 

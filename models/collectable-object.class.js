@@ -12,7 +12,7 @@ class CollectableObject extends MovableObject {
         super().type = type;
         if(type == 'Coin') this.coin();
         else if(type == 'Bottle') this.bottle();
-        this.x = Math.random() * 2300; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
+        this.x = 0 + Math.random() * 6500; // Zahl zwischen 200 und 700 (Math.random() erstellt eine Zufallszahl zwischen 0 und 1
     }
 
 

@@ -15,21 +15,19 @@ class World {
     lastKeyDPressed;
     getGift = false;
     giftTimeout = false;
+    coins = 0;
+    bottles = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
-        // this.setStatusBars();
+        this.statusbarBottle.setPercentage(0);
+        this.statusbarCoin.setPercentage(0);
         this.draw();
         this.run();
         this.lastKeyDPressed = new Date().getTime();
-    }
-
-    setStatusBars() {
-        this.statusbarBottle.y = 40;
-        this.statusbarCoin.y = 80;
     }
 
 
@@ -94,11 +92,8 @@ class World {
         }
         mo.draw(this.ctx);
 
-        if( 
-            mo instanceof Endboss ||
-            mo instanceof BarrierObject || 
-            mo instanceof Character || 
-            mo instanceof CollectableObject) {
+        if(mo instanceof GiftObject ||
+            mo instanceof Character) {
             
             mo.drawFrame(this.ctx);
         }
@@ -137,10 +132,12 @@ class World {
 
     checkThrowableObject() {
         if(this.notThrowing()) {
-            if(this.keyboard.keyD) {
+            if(this.keyboard.keyD && this.bottles >= 20) {
+                this.bottles -= 20;
                 this.lastKeyDPressed = new Date().getTime();
                 let bottle = new ThrowableObject(this.character.x, this.character.y);
                 this.throwableBottle.push(bottle);
+                this.statusbarBottle.setPercentage(this.bottles);
             }
         }
     }
@@ -179,20 +176,36 @@ class World {
 
     pepeDrinkGift() {
         if(this.character.takesGift && !this.character.hasSuperPower) {
-            let lucid_air = [];
-            for (let i = 0; i < this.level.backgroundObjects.length/4; i++) {
-                let x = this.level.backgroundObjects[i].x;
-                lucid_air.push(new BackgroundObject(x,'img/5_background/layers/air_lucid.png'));
-            }
-
-            this.level.backgroundObjects.splice(0,12);
-            this.level.backgroundObjects = lucid_air.concat(this.level.backgroundObjects);
+            this.backgroundChangeToLucid();
             this.character.hasSuperPower = true;
-            this.level.enemies.forEach((enemy)=>{enemy.crazyMode = true;});
-            this.level.barrierObjects.forEach((cactus) => {
-                cactus.move = true;
-            });
+            this.enemiesCrazyModeOn();
+            this.cactusStartMoving();
         }
+    }
+
+
+    backgroundChangeToLucid() {
+        let lucid_air = [];
+        for (let i = 0; i < this.level.backgroundObjects.length/4; i++) {
+            let x = this.level.backgroundObjects[i].x;
+            lucid_air.push(new BackgroundObject(x,'img/5_background/layers/air_lucid.png'));
+        }
+        this.level.backgroundObjects.splice(0,12);
+        this.level.backgroundObjects = lucid_air.concat(this.level.backgroundObjects);
+    }
+
+
+    enemiesCrazyModeOn() {
+        this.level.enemies.forEach((enemy) => {
+            enemy.crazyMode = true;
+        });
+    }
+
+
+    cactusStartMoving() {
+        this.level.barrierObjects.forEach((cactus) => {
+            cactus.move = true;
+        });
     }
 
 
@@ -201,6 +214,7 @@ class World {
         this.checkCollisionEndboss();
         this.checkCollisionCactus();  
         this.checkCollisionGift();  
+        this.checkCollisionCollectable();
     }
 
 
@@ -212,7 +226,7 @@ class World {
                         enemy.dead = true;
                         this.character.speedY = 10;
                 }
-                if(this.character.isColliding(enemy, 35, 35, 20) && !this.character.isDead() && !enemy.dead) {
+                if(this.character.isColliding(enemy, 35, 35, 20, 150) && !this.character.isDead() && !enemy.dead) {
                         this.character.hit();
                         this.statusbarHealth.setPercentage(this.character.energy);
                 }
@@ -223,7 +237,7 @@ class World {
     checkCollisionEndboss() {
         this.level.endboss.forEach(enemy => {
             if(!enemy.isDead()) {
-                if(this.character.isColliding(enemy, 70, 120, 20) && !this.character.isDead() && !enemy.hurt) {
+                if(this.character.isColliding(enemy, 70, 120, 20, 150) && !this.character.isDead() && !enemy.hurt) {
                     this.character.hit();
                     this.statusbarHealth.setPercentage(this.character.energy);
                 }
@@ -235,7 +249,7 @@ class World {
 
     checkCollisionCactus() {
         this.level.barrierObjects.forEach((barrier) => {
-            if(this.character.isColliding(barrier, 70, 60, 20) && !this.character.isDead()) {
+            if(this.character.isColliding(barrier, 70, 60, 20, 150) && !this.character.isDead()) {
                 if(!this.level.barrierObjects[0].move) this.character.hit();
                 else this.character.kill();
                 this.statusbarHealth.setPercentage(this.character.energy);
@@ -247,7 +261,7 @@ class World {
     checkCollisionGift() {
         if(this.getGift && !this.character.takesGift && !this.character.hasSuperPower) {
             this.level.giftObject.forEach((gift) => {
-                if(this.character.isColliding(gift, 20, 20 , 20) && 
+                if(this.character.isColliding(gift, 20, 20 , 20, 150) && 
                     !this.character.isDead() &&
                     this.character.y + 90 < gift.y) {
                     this.character.takesGift = true;
@@ -255,6 +269,22 @@ class World {
                 }
             });
         }
+    }
+
+
+    checkCollisionCollectable() {
+        this.level.collectableObjects.forEach((item) => {
+            if(item.type == 'Coin' && this.character.isColliding(item, 85, 85, 50, 180)) {
+                this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(item), 1);
+                this.coins += 10;
+                this.statusbarCoin.setPercentage(this.coins);
+            }
+            if(item.type == 'Bottle' && this.character.isColliding(item, 75, 75, 20, 150) && this.bottles < 100) {
+                this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(item), 1);
+                this.bottles += 20;
+                this.statusbarBottle.setPercentage(this.bottles);
+            }  
+        })
     }
 
 

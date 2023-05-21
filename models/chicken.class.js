@@ -84,13 +84,11 @@ class Chicken extends MovableObject {
 
     fallingDownToEarth() {
         let falling = setInterval(() => {
-            // debugger;
-            this.y += 3;
-            console.log('chicken y: ', this.y);
+            this.y += 4;
             if(this.y > 378 && this.y < 382) {
                 clearInterval(falling);
             }
-        }, 80);
+        }, 1000/ 50);
     }
 
     

@@ -1,6 +1,7 @@
 let background = [];
 let cloud = [];
 let enemy = [];
+let collect = [];
 
 const level1 = new Level(
         renderEnemyObjects(),
@@ -11,31 +12,21 @@ const level1 = new Level(
         
         renderCloudObjects(),
         renderBackgroundObjects(),
-    [
-        new CollectableObject('Coin'),
-        new CollectableObject('Coin'),
-        new CollectableObject('Coin'),
-        new CollectableObject('Coin'),
-        new CollectableObject('Coin'),
-        new CollectableObject('Bottle'),
-        new CollectableObject('Bottle')
-    ],
+        renderCollectableObjects(),
     [
         new BarrierObject(3300),
         new BarrierObject(3900),
-        new BarrierObject(4800),
-        new BarrierObject(5600)
+        new BarrierObject(4500),
+        new BarrierObject(5100),
+        new BarrierObject(8000),
+        new BarrierObject(9000)
     ],
     []
 )
 
 function renderEnemyObjects() {
-    for (let i = 0; i < 10; i++) {
-        enemy.push(new Chicken());
-    }
-    for (let i = 0; i < 20; i++) {
-        enemy.push(new Chicken('small'));
-    }
+    for (let i = 0; i < 20; i++) enemy.push(new Chicken());
+    for (let i = 0; i < 25; i++) enemy.push(new Chicken('small'));
     return enemy;
 }
 
@@ -55,6 +46,13 @@ function renderBackgroundObjects() {
     renderSecondLayer();
     renderFirstLayer();
     return background;
+}
+
+
+function renderCollectableObjects() {
+    for (let i = 0; i < 10; i++) collect.push(new CollectableObject('Coin'));
+    for (let i = 0; i < 20; i++) collect.push(new CollectableObject('Bottle'));
+    return collect;
 }
 
 
