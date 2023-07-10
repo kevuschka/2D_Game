@@ -237,15 +237,9 @@ class Character extends MovableObject {
     }
 
 
-    // walkingSound() {
-    //     this.walking_sound.pause();
-    //         this.walking_sound.currentTime = 0;
-    // }
-
-
     jump() {
         this.jumping_sound.currentTime = 0; 
-        this.jumping_sound.volume = 0.6;
+        this.jumping_sound.volume = 0.4;
         this.jumping_sound.play();
         if(this.hasSuperPower) this.speedY = 15;
         else this.speedY = 20;

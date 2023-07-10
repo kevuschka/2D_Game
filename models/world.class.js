@@ -328,15 +328,13 @@ class World {
     }
 
 
-    playBottleCollectSound() {
-        this.bottleCollectSound.pause();
+    async playBottleCollectSound() {
         this.bottleCollectSound.currentTime = 0;
-        this.bottleCollectSound.volume = 0.2;
+        this.bottleCollectSound.volume = 0.1;
         this.bottleCollectSound.play();
     }
 
     playCoinCollectSound() {
-        this.coinCollectSound.pause();
         this.coinCollectSound.currentTime = 0;
         this.coinCollectSound.play();
     }
