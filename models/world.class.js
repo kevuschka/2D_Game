@@ -18,6 +18,8 @@ class World {
     getPrice = false;
     coins = 0;
     bottles = 0;
+    bottleCollectSound = new Audio('audio/collect.mp3');
+    coinCollectSound = new Audio('audio/coin.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -93,11 +95,11 @@ class World {
         }
         mo.draw(this.ctx);
 
-        if(mo instanceof GiftObject ||
-            mo instanceof Character) {
+        // if(mo instanceof GiftObject ||
+        //     mo instanceof Character) {
             
-            mo.drawFrame(this.ctx);
-        }
+        //     mo.drawFrame(this.ctx);
+        // }
 
         if(mo.otherDirection) {
             this.flipImageBack(mo);
@@ -290,11 +292,13 @@ class World {
     checkCollisionCollectable() {
         this.level.collectableObjects.forEach((item) => {
             if(item.type == 'Coin' && this.character.isColliding(item, 85, 85, 50, 180)) {
+                this.playCoinCollectSound();
                 this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(item), 1);
                 this.coins += 10;
                 this.statusbarCoin.setPercentage(this.coins);
             }
             if(item.type == 'Bottle' && this.character.isColliding(item, 75, 75, 20, 150) && this.bottles < 100) {
+                this.playBottleCollectSound();
                 this.level.collectableObjects.splice(this.level.collectableObjects.indexOf(item), 1);
                 this.bottles += 20;
                 this.statusbarBottle.setPercentage(this.bottles);
@@ -322,5 +326,20 @@ class World {
         for (let i = 0; i < this.level.backgroundObjects.length/4; i++) 
             this.level.backgroundObjects[(this.level.backgroundObjects.length/4)*2+i].x -= 0.6;   
     }
+
+
+    playBottleCollectSound() {
+        this.bottleCollectSound.pause();
+        this.bottleCollectSound.currentTime = 0;
+        this.bottleCollectSound.volume = 0.2;
+        this.bottleCollectSound.play();
+    }
+
+    playCoinCollectSound() {
+        this.coinCollectSound.pause();
+        this.coinCollectSound.currentTime = 0;
+        this.coinCollectSound.play();
+    }
+
 
 }

@@ -7,6 +7,7 @@ class ThrowableObject extends CollectableObject {
     throwAnimation;
     directionSet = false;
     hit = false;
+    bottleHitSound = new Audio('audio/glass.mp3');
 
 
     IMAGES_BOTTLE = [
@@ -56,7 +57,6 @@ class ThrowableObject extends CollectableObject {
 
 
     hitEndboss() {
-        // let boss = world.level.endboss;
         world.level.endboss.forEach(boss => {
             if(!this.hit && !boss.isDead()) {
                 if(this.isCollidingEndboss(boss, 100) &&
@@ -75,6 +75,7 @@ class ThrowableObject extends CollectableObject {
 
     bottleSplash() {
         if(!this.broken) {
+            this.playBottleCollisionSound();
             this.broken = true;
             clearInterval(this.throwAnimation);
             this.animateSplash();
@@ -87,6 +88,13 @@ class ThrowableObject extends CollectableObject {
         this.speedX = 0;
         this.speedY = 0;
         this.acceleration = 0;
+    }
+
+
+    playBottleCollisionSound() {
+        this.bottleHitSound.pause();
+        this.bottleHitSound.currentTime = 0;
+        this.bottleHitSound.play();
     }
 
 
