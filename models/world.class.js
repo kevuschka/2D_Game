@@ -178,9 +178,10 @@ class World {
 
     secondEndbossGift() {
         if(this.level.endboss.length <= 1 && !this.getPrice && this.level.endboss[0].isDead()) {
+            this.character.takesGift = false;
+            this.character.hasSuperPower = false;
             this.getPrice = true;
-            // let x = this.level.endboss[0].x + this.level.endboss[0].width;
-            let price = new GiftObject(6650, 'price');
+            let price = new GiftObject(6630, 'price');
             price.width = 100;
             price.height = 100;
             this.level.giftObject.push(price);
