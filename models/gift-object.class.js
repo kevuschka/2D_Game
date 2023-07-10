@@ -17,19 +17,16 @@ class GiftObject extends CollectableObject {
     ]
 
 
-    constructor(x) {
+    constructor(x, name) {
         super().x = x + 50;
-        this.loadImage('img/gift/drink_1.png');
-        this.loadImages(this.IMAGES_DRINK);
-        this.animateDrink();
+        if(name == 'drink') {
+            this.loadImage('img/gift/drink_1.png');
+            this.loadImages(this.IMAGES_DRINK);
+            this.animateDrink();
+        } else {
+            this.loadImage('img/gift/price.png')
+        }
         this.gettingDrink();
-    }
-
-    gettingDrink() {
-        let fallDown = setInterval(() => {
-            this.y += 5;
-            if(this.y == 365) clearInterval(fallDown);
-        }, 50);
     }
 
 
@@ -38,4 +35,15 @@ class GiftObject extends CollectableObject {
             this.animateImages(this.IMAGES_DRINK);
         }, 100);
     }
+
+
+    gettingDrink() {
+        let fallDown = setInterval(() => {
+            this.y += 5;
+            if((this.y + this.height) >= 412) clearInterval(fallDown);
+        }, 50);
+    }
+
+
+    
 }

@@ -13,8 +13,9 @@ class World {
     camera_x = 0;
     throwableBottle = [];
     lastKeyDPressed;
-    getGift = false;
     giftTimeout = false;
+    getGift = false;
+    getPrice = false;
     coins = 0;
     bottles = 0;
 
@@ -125,6 +126,7 @@ class World {
             this.checkThrowableObject();
             this.checkEndbossBehavior();
             this.firstEndbossGift();
+            this.secondEndbossGift();
             this.pepeDrinkGift();
         }, 1000 / 25);
     }
@@ -167,9 +169,21 @@ class World {
             let x = this.level.endboss[0].x + this.level.endboss[0].width;
             this.giftTimeout = true;
             setTimeout(() => {
-                this.level.giftObject.push(new GiftObject(x));
+                this.level.giftObject.push(new GiftObject(x, 'drink'));
                 this.getGift = true;
             }, 5000);
+        }
+    }
+
+
+    secondEndbossGift() {
+        if(this.level.endboss.length <= 1 && !this.getPrice && this.level.endboss[0].isDead()) {
+            this.getPrice = true;
+            // let x = this.level.endboss[0].x + this.level.endboss[0].width;
+            let price = new GiftObject(6650, 'price');
+            price.width = 100;
+            price.height = 100;
+            this.level.giftObject.push(price);
         }
     }
 
