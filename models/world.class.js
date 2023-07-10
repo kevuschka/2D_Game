@@ -18,8 +18,12 @@ class World {
     getPrice = false;
     coins = 0;
     bottles = 0;
-    bottleCollectSound = new Audio('audio/collect.mp3');
-    coinCollectSound = new Audio('audio/coin.mp3');
+
+    bottleCollect_sound = new Audio('audio/collect.mp3');
+    coinCollect_sound = new Audio('audio/coin.mp3');
+    giftCollect_sound = new Audio('audio/collectGift.mp3');
+    finish_sound = new Audio('audio/finish.mp3');
+    lose_sound = new Audio('audio/lose.mp3');
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -281,6 +285,8 @@ class World {
                 if(this.character.isColliding(gift, 20, 20 , 20, 150) && 
                     !this.character.isDead() &&
                     this.character.y + 90 < gift.y) {
+                    if(gift.name == 'drink') this.playDrinkSound();
+                    else this.playFinishSound();
                     this.character.takesGift = true;
                     this.level.giftObject = [];
                 }
@@ -329,15 +335,30 @@ class World {
 
 
     async playBottleCollectSound() {
-        this.bottleCollectSound.currentTime = 0;
-        this.bottleCollectSound.volume = 0.1;
-        this.bottleCollectSound.play();
+        this.bottleCollect_sound.currentTime = 0;
+        this.bottleCollect_sound.volume = 0.1;
+        this.bottleCollect_sound.play();
     }
 
     playCoinCollectSound() {
-        this.coinCollectSound.currentTime = 0;
-        this.coinCollectSound.play();
+        this.coinCollect_sound.currentTime = 0;
+        this.coinCollect_sound.play();
     }
 
+
+    playDrinkSound() {
+        this.giftCollect_sound.volume = 0.5
+        this.giftCollect_sound.play();
+    }
+
+    playFinishSound() {
+        this.finish_sound = 0.7;
+        this.finish_sound.play();
+    }
+
+    playLoseSound() {
+        this.lose_sound.volume = 0.7;
+        this.lose_sound.play();
+    }
 
 }

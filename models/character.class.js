@@ -126,6 +126,7 @@ class Character extends MovableObject {
                 this.noWalkingSound();
                 this.sleeping = false;
                 this.animateDead();
+                this.world.playLoseSound();
             } else {
                     this.loadImage('img/2_character_pepe/5_dead/D-56.png');
                     this.dead = true;
@@ -239,7 +240,7 @@ class Character extends MovableObject {
 
     jump() {
         this.jumping_sound.currentTime = 0; 
-        this.jumping_sound.volume = 0.4;
+        this.jumping_sound.volume = 0.3;
         this.jumping_sound.play();
         if(this.hasSuperPower) this.speedY = 15;
         else this.speedY = 20;

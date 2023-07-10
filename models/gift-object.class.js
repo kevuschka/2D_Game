@@ -3,7 +3,10 @@ class GiftObject extends CollectableObject {
     y = 0;
     width = 30;
     height = 50;
+    name;
 
+    getGift_sound = new Audio('audio/gift.mp3');
+    win_sound = new Audio('audio/finish.mp3');
 
     IMAGES_DRINK = [
         'img/gift/drink_1.png',
@@ -19,6 +22,7 @@ class GiftObject extends CollectableObject {
 
     constructor(x, name) {
         super().x = x + 50;
+        this.name = name;
         if(name == 'drink') {
             this.loadImage('img/gift/drink_1.png');
             this.loadImages(this.IMAGES_DRINK);
@@ -38,10 +42,23 @@ class GiftObject extends CollectableObject {
 
 
     gettingDrink() {
+        if(this.name == 'drink') this.playGetGiftSound();
         let fallDown = setInterval(() => {
             this.y += 5;
             if((this.y + this.height) >= 412) clearInterval(fallDown);
         }, 50);
+    }
+
+    playGetGiftSound() {
+        this.getGift_sound.currentTime = 0;
+        this.getGift_sound.volume = 0.2;
+        this.getGift_sound.play();
+    }
+
+    playGetPriceSound() {
+        this.getPrice_sound.currentTime = 0;
+        this.getPrice_sound.volume = 0.2;
+        this.getPrice_sound.play();
     }
 
 
