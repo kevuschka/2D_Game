@@ -6,7 +6,6 @@ class GiftObject extends CollectableObject {
     name;
 
     getGift_sound = new Audio('audio/gift.mp3');
-    win_sound = new Audio('audio/finish.mp3');
 
     IMAGES_DRINK = [
         'img/gift/drink_1.png',
@@ -51,14 +50,8 @@ class GiftObject extends CollectableObject {
 
     playGetGiftSound() {
         this.getGift_sound.currentTime = 0;
-        this.getGift_sound.volume = 0.2;
+        // this.getGift_sound.volume = 0.5;
         this.getGift_sound.play();
-    }
-
-    playGetPriceSound() {
-        this.getPrice_sound.currentTime = 0;
-        this.getPrice_sound.volume = 0.2;
-        this.getPrice_sound.play();
     }
 
 

@@ -94,7 +94,7 @@ class ThrowableObject extends CollectableObject {
 
     playBottleCollisionSound() {
         this.bottleHit_sound.currentTime = 0;
-        this.bottleHit_sound.volume = 0.5;
+        // this.bottleHit_sound.volume = 0.5;
         this.bottleHit_sound.play();
     }
 

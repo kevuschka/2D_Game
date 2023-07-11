@@ -10,6 +10,7 @@ class Character extends MovableObject {
     // barrier = 10000;
     takesGift = false;
     hasSuperPower = false;
+    backgroundMusicPlays = false;
 
     IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
@@ -91,6 +92,7 @@ class Character extends MovableObject {
 
     walking_sound = new Audio('audio/running_long2.mp3');
     jumping_sound = new Audio('audio/jump.mp3')
+    background_music = new Audio('audio/background_music1.mp3');
     
 
     constructor() {
@@ -137,6 +139,10 @@ class Character extends MovableObject {
         setInterval( () => {
             if(!this.isDead()) {
                 if(this.world.keyboard.SPACE || this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.keyD || this.isHurt()) {
+                    if(!this.backgroundMusicPlays) {
+                        this.playBackgroundMusic();
+                        this.backgroundMusicPlays = true;
+                    }
                     this.lastMove = new Date().getTime();
                     background_music.volume = 0.2;
                     this.sleeping = false;
@@ -240,7 +246,7 @@ class Character extends MovableObject {
 
     jump() {
         this.jumping_sound.currentTime = 0; 
-        this.jumping_sound.volume = 0.3;
+        this.jumping_sound.volume = 0.7;
         this.jumping_sound.play();
         if(this.hasSuperPower) this.speedY = 15;
         else this.speedY = 20;
@@ -252,5 +258,15 @@ class Character extends MovableObject {
         let timepassed = new Date().getTime() - this.lastMove;
         timepassed = timepassed / 1000;
         return timepassed > 5;
+    }
+
+
+    playBackgroundMusic() {
+        this.background_music.play();
+    }
+
+
+    stopBackgroundMusic() {
+        this.background_music.pause();
     }
 }

@@ -148,7 +148,7 @@ class MovableObject extends DrawableObject {
 
     playHurtSound() {
         this.pain_sound.currentTime = 0;
-        this.pain_sound.volume = 0.5;
+        this.pain_sound.volume = 0.7;
         this.pain_sound.play();
     }
 

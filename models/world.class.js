@@ -26,6 +26,7 @@ class World {
     finish_sound = new Audio('audio/finish.mp3');
     lose_sound = new Audio('audio/lose.mp3');
     lose2_sound = new Audio('audio/lose2.mp3');
+    background2_music = new Audio('audio/background_music2.mp3');
     
 
     constructor(canvas, keyboard) {
@@ -203,6 +204,7 @@ class World {
             this.backgroundChangeToLucid();
             this.enemiesCrazyModeOn();
             this.cactusStartMoving();
+            this.playBackground2Music();
         }
     }
 
@@ -341,7 +343,7 @@ class World {
 
     async playBottleCollectSound() {
         this.bottleCollect_sound.currentTime = 0;
-        this.bottleCollect_sound.volume = 0.1;
+        this.bottleCollect_sound.volume = 0.5;
         this.bottleCollect_sound.play();
     }
 
@@ -353,20 +355,20 @@ class World {
 
 
     playDrinkSound() {
-        this.giftCollect_sound.volume = 0.5
         this.giftCollect_sound.play();
     }
 
 
     playFinishSound() {
-        this.finish_sound.volume = 0.7;
+        this.stopBackground2Music(); 
         this.finish_sound.loop = true;
         this.finish_sound.play();
     }
 
 
     playLoseSound() {
-        this.lose2_sound.volume = 0.7;
+        this.character.stopBackgroundMusic();
+        this.stopBackground2Music();
         this.lose2_sound.play();
     }
 
@@ -378,5 +380,15 @@ class World {
     }
 
 
+    playBackground2Music() {
+        this.character.stopBackgroundMusic();
+        this.background2_music.loop = true;
+        this.background2_music.play();
+    }
+
+
+    stopBackground2Music() {
+        this.background2_music.pause();
+    }
 
 }
