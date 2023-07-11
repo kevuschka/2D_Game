@@ -151,7 +151,6 @@ class Character extends MovableObject {
                 else if(this.world.keyboard.SPACE && !this.isAboveGround()) this.jump(); 
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                            // console.log('not hit cactus:', !this.hitCactus());
                         this.otherDirection = false;
                         if(!this.hitCactus(25)) {
                             this.moveRight();
@@ -174,6 +173,9 @@ class Character extends MovableObject {
             if(this.isSleeping() && !this.dead) {
                 this.sleeping = true;
                 this.animateSleeping();
+                this.stopBackgroundMusic();
+                this.world.stopBackground2Music()
+                this.backgroundMusicPlays = false;
                 background_music.volume = 0.05;
             } else if(!(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) && !this.isDead())  {
                 if(!this.sleeping) this.animateIdle();

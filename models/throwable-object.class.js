@@ -50,6 +50,7 @@ class ThrowableObject extends CollectableObject {
         world.level.enemies.forEach(enemy => {
             if(this.isColliding(enemy, 20, 35, 20, 0) && !enemy.dead && !this.broken) {
                 this.playBottleCollisionSound();
+                world.playDeathChickenSound();
                 enemy.dead = true;
                 this.bottleSplash();
             };

@@ -25,8 +25,8 @@ class World {
     eagle_sound = new Audio('audio/eagle.mp3');
     finish_sound = new Audio('audio/finish.mp3');
     lose_sound = new Audio('audio/lose.mp3');
-    lose2_sound = new Audio('audio/lose2.mp3');
     background2_music = new Audio('audio/background_music2.mp3');
+    deathChicken_sound = new Audio('audio/chicken_death.mp3');
     
 
     constructor(canvas, keyboard) {
@@ -248,6 +248,7 @@ class World {
             {
                 if(this.character.isCollidingFromTop(enemy, 40, -40, 20, 40) && !this.character.isDead() && 
                     !enemy.dead && this.character.speedY < 0) {
+                        this.playDeathChickenSound();
                         enemy.dead = true;
                         this.character.speedY = 10;
                 }
@@ -369,7 +370,7 @@ class World {
     playLoseSound() {
         this.character.stopBackgroundMusic();
         this.stopBackground2Music();
-        this.lose2_sound.play();
+        this.lose_sound.play();
     }
 
 
@@ -389,6 +390,13 @@ class World {
 
     stopBackground2Music() {
         this.background2_music.pause();
+    }
+
+
+    playDeathChickenSound() {
+        this.deathChicken_sound.currentTime = 0;
+        this.deathChicken_sound.volume = 0.7;
+        this.deathChicken_sound.play();
     }
 
 }
