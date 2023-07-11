@@ -205,7 +205,7 @@ class Character extends MovableObject {
 
 
     noWalkingSound() {
-        this.walking_sound.pause();
+        // this.walking_sound.pause();
         this.walking_sound.currentTime = 0;
     }
 
