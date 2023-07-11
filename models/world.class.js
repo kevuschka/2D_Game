@@ -180,7 +180,6 @@ class World {
             setTimeout(() => {
                 this.level.giftObject.push(new GiftObject(x, 'drink'));
                 this.getGift = true;
-                debugger;
             }, 5000);
         }
     }
@@ -188,8 +187,7 @@ class World {
 
     secondEndbossGift() {
         if(this.level.endboss.length <= 1 && !this.getPrice && this.level.endboss[0].isDead()) {
-            this.character.takesGift = false;
-            // this.character.hasSuperPower = false;
+            // this.character.takesGift = false;
             this.getPrice = true;
             let price = new GiftObject(6620, 'price');
             price.width = 100;
@@ -200,20 +198,11 @@ class World {
 
 
     pepeDrinkGift() {
-        if(this.character.takesGift) {
-            if(!this.character.hasSuperPower) {
-                this.character.hasSuperPower = true;
-                this.backgroundChangeToLucid();
-                this.enemiesCrazyModeOn();
-                this.cactusStartMoving();
-            }
-            
-            if(this.level.giftObject[0].name == 'drink') { 
-                this.character.hasSuperPower = true;
-                
-            } else {
-                this.character.hasSuperPower = false;
-            }
+        if(this.character.takesGift && !this.character.hasSuperPower) {
+            this.character.hasSuperPower = true;
+            this.backgroundChangeToLucid();
+            this.enemiesCrazyModeOn();
+            this.cactusStartMoving();
         }
     }
 
@@ -243,7 +232,7 @@ class World {
     }
 
 
-    checkCollision() {
+    checkCollision() {    
         this.checkCollisionChicken();
         this.checkCollisionEndboss();
         this.checkCollisionCactus();  
@@ -294,17 +283,19 @@ class World {
 
 
     checkCollisionGift() {
-        if(this.getGift && !this.character.takesGift && !this.character.hasSuperPower) {
-            this.level.giftObject.forEach((gift) => {
-                if(this.character.isColliding(gift, 20, 20 , 20, 150) && 
-                    !this.character.isDead() &&
-                    this.character.y + 90 < gift.y) {
-                    if(gift.name == 'drink') this.playDrinkSound();
-                    else this.playFinishSound();
-                    this.character.takesGift = true;
-                    // this.level.giftObject = [];
-                }
-            });      
+        if(this.getGift && (!this.character.takesGift || this.getPrice)) {
+            if(this.level.giftObject.length > 0) {
+                this.level.giftObject.forEach((gift) => {
+                    if(this.character.isColliding(gift, 20, 20 , 20, 150) && 
+                        !this.character.isDead() &&
+                        this.character.y + 90 < gift.y) {
+                        if(gift.name == 'drink') this.playDrinkSound();
+                        else this.playFinishSound();
+                        this.character.takesGift = true;
+                        this.level.giftObject = [];
+                    }
+                });
+            }      
         }
     }
 
