@@ -141,7 +141,7 @@ class Character extends MovableObject {
                     background_music.volume = 0.2;
                     this.sleeping = false;
                 }
-                if(this.hasSuperPower && this.world.keyboard.SPACE && this.isInsideGame()) this.jump();
+                if(this.hasSuperPower && this.world.keyboard.SPACE && this.isInsideGameView()) this.jump();
                 else if(this.world.keyboard.SPACE && !this.isAboveGround()) this.jump(); 
                 else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {

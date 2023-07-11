@@ -22,8 +22,11 @@ class World {
     bottleCollect_sound = new Audio('audio/collect.mp3');
     coinCollect_sound = new Audio('audio/coin.mp3');
     giftCollect_sound = new Audio('audio/collectGift.mp3');
+    eagle_sound = new Audio('audio/eagle.mp3');
     finish_sound = new Audio('audio/finish.mp3');
     lose_sound = new Audio('audio/lose.mp3');
+    lose2_sound = new Audio('audio/lose2.mp3');
+    
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d'); // ctx ist ein Objekt, das verantwortlich ist, um auf dem Canvas zu malen. 
@@ -187,7 +190,7 @@ class World {
             this.character.takesGift = false;
             this.character.hasSuperPower = false;
             this.getPrice = true;
-            let price = new GiftObject(6630, 'price');
+            let price = new GiftObject(6620, 'price');
             price.width = 100;
             price.height = 100;
             this.level.giftObject.push(price);
@@ -248,8 +251,9 @@ class World {
                         this.character.speedY = 10;
                 }
                 if(this.character.isColliding(enemy, 35, 35, 20, 150) && !this.character.isDead() && !enemy.dead) {
-                        this.character.hit();
-                        this.statusbarHealth.setPercentage(this.character.energy);
+                    if(this.character.hasSuperPower) this.playEagleSound();
+                    this.character.hit();
+                    this.statusbarHealth.setPercentage(this.character.energy);
                 }
             });
     }
@@ -340,6 +344,7 @@ class World {
         this.bottleCollect_sound.play();
     }
 
+
     playCoinCollectSound() {
         this.coinCollect_sound.currentTime = 0;
         this.coinCollect_sound.play();
@@ -351,14 +356,26 @@ class World {
         this.giftCollect_sound.play();
     }
 
+
     playFinishSound() {
-        this.finish_sound = 0.7;
+        this.finish_sound.volume = 0.7;
+        this.finish_sound.loop = true;
         this.finish_sound.play();
     }
 
+
     playLoseSound() {
-        this.lose_sound.volume = 0.7;
-        this.lose_sound.play();
+        this.lose2_sound.volume = 0.7;
+        this.lose2_sound.play();
     }
+
+
+    playEagleSound() {
+        this.eagle_sound.currentTime = 0;
+        this.eagle_sound.volume = 0.5;
+        this.eagle_sound.play();
+    }
+
+
 
 }

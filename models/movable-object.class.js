@@ -9,6 +9,8 @@ class MovableObject extends DrawableObject {
     type;
 
 
+    pain_sound = new Audio('audio/pain.mp3');
+
     moveLeft() {
         this.x -= this.speed;
     }
@@ -44,7 +46,7 @@ class MovableObject extends DrawableObject {
         } else return this.y+this.height < 428;
     }
 
-    isInsideGame() {
+    isInsideGameView() {
         if(this instanceof Character) {
             return this.y + 80 > 0;
         }
@@ -113,7 +115,10 @@ class MovableObject extends DrawableObject {
 
     hit() {
         if(this instanceof Endboss) this.energy -= 20;
-        else this.energy -= 0.5;
+        else {
+            if(!this.isHurt()) this.playHurtSound();
+            this.energy -= 0.5;
+        } 
         if(this.energy < 0) this.energy = 0;
         else this.lastHit = new Date().getTime();
     }
@@ -138,6 +143,13 @@ class MovableObject extends DrawableObject {
 
     animateHurting(images) {
         this.animateImages(images);
+    }
+
+
+    playHurtSound() {
+        this.pain_sound.currentTime = 0;
+        this.pain_sound.volume = 0.5;
+        this.pain_sound.play();
     }
 
 }
