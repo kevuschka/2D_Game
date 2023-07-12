@@ -25,8 +25,9 @@ class World {
     eagle_sound = new Audio('audio/eagle.mp3');
     finish_sound = new Audio('audio/finish.mp3');
     lose_sound = new Audio('audio/lose.mp3');
+    background_music = new Audio('audio/background_music1.mp3');
     background2_music = new Audio('audio/background_music2.mp3');
-    deathChicken_sound = new Audio('audio/chicken_death.mp3');
+    deathChicken_sound = new Audio('audio/chicken_death2.mp3');
     
 
     constructor(canvas, keyboard) {
@@ -381,6 +382,17 @@ class World {
     }
 
 
+    playBackgroundMusic() {
+        this.background_music.volume = 0.6;
+        this.background_music.play();
+    }
+
+
+    stopBackgroundMusic() {
+        this.background_music.pause();
+    }
+
+
     playBackground2Music() {
         this.character.stopBackgroundMusic();
         this.background2_music.loop = true;
@@ -395,7 +407,7 @@ class World {
 
     playDeathChickenSound() {
         this.deathChicken_sound.currentTime = 0;
-        this.deathChicken_sound.volume = 0.7;
+        // this.deathChicken_sound.volume = 0.3;
         this.deathChicken_sound.play();
     }
 

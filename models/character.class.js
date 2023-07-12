@@ -92,7 +92,7 @@ class Character extends MovableObject {
 
     walking_sound = new Audio('audio/running_long2.mp3');
     jumping_sound = new Audio('audio/jump.mp3')
-    background_music = new Audio('audio/background_music1.mp3');
+    
     
 
     constructor() {
@@ -140,7 +140,7 @@ class Character extends MovableObject {
             if(!this.isDead()) {
                 if(this.world.keyboard.SPACE || this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.keyD || this.isHurt()) {
                     if(!this.backgroundMusicPlays) {
-                        this.playBackgroundMusic();
+                        this.world.playBackgroundMusic();
                         this.backgroundMusicPlays = true;
                     }
                     this.lastMove = new Date().getTime();
@@ -173,7 +173,7 @@ class Character extends MovableObject {
             if(this.isSleeping() && !this.dead) {
                 this.sleeping = true;
                 this.animateSleeping();
-                this.stopBackgroundMusic();
+                this.world.stopBackgroundMusic();
                 this.world.stopBackground2Music()
                 this.backgroundMusicPlays = false;
                 background_music.volume = 0.05;
@@ -213,7 +213,7 @@ class Character extends MovableObject {
 
 
     noWalkingSound() {
-        // this.walking_sound.pause();
+        this.walking_sound.pause();
         this.walking_sound.currentTime = 0;
     }
 
@@ -263,12 +263,5 @@ class Character extends MovableObject {
     }
 
 
-    playBackgroundMusic() {
-        this.background_music.play();
-    }
-
-
-    stopBackgroundMusic() {
-        this.background_music.pause();
-    }
+    
 }
