@@ -394,7 +394,7 @@ class World {
 
 
     playBackground2Music() {
-        this.character.stopBackgroundMusic();
+        this.stopBackgroundMusic();
         this.background2_music.loop = true;
         this.background2_music.play();
     }
@@ -407,7 +407,6 @@ class World {
 
     playDeathChickenSound() {
         this.deathChicken_sound.currentTime = 0;
-        // this.deathChicken_sound.volume = 0.3;
         this.deathChicken_sound.play();
     }
 
