@@ -52,7 +52,10 @@ html {
     position: sticky;
 }
 
-
+@font-face {
+    font-family: 'zabars';
+    src: url('fonts/zabars.ttf');
+}
 
 body {
     display: flex;
@@ -60,6 +63,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url('img/background.png');
+    background-position: center;
+    font-family: 'zabars';
+    max-height: 100vh;
 }
 
 canvas {

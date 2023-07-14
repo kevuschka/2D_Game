@@ -369,7 +369,7 @@ class World {
 
 
     playLoseSound() {
-        this.character.stopBackgroundMusic();
+        this.stopBackgroundMusic();
         this.stopBackground2Music();
         this.lose_sound.play();
     }
