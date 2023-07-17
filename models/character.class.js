@@ -9,6 +9,7 @@ class Character extends MovableObject {
     sleeping = false;
     // barrier = 10000;
     takesGift = false;
+    takesPrice = false;
     hasSuperPower = false;
     backgroundMusicPlays = false;
 

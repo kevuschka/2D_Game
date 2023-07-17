@@ -14,10 +14,10 @@ class World {
     throwableBottle = [];
     lastKeyDPressed;
     giftTimeout = false;
-    getGift = false;
-    getPrice = false;
     coins = 0;
     bottles = 0;
+    dropGift = false;
+    dropPrice = false;
 
     bottleCollect_sound = new Audio('audio/collect.mp3');
     coinCollect_sound = new Audio('audio/coin.mp3');
@@ -176,21 +176,21 @@ class World {
 
     firstEndbossGift() {
         if(this.level.endboss.length != 1 && !this.giftTimeout && 
-            !this.getGift && this.level.endboss[0].isDead()) {
+            !this.dropGift && this.level.endboss[0].isDead()) {
             let x = this.level.endboss[0].x + this.level.endboss[0].width;
             this.giftTimeout = true;
             setTimeout(() => {
                 this.level.giftObject.push(new GiftObject(x, 'drink'));
-                this.getGift = true;
+                this.dropGift = true;
             }, 5000);
         }
     }
 
 
     secondEndbossGift() {
-        if(this.level.endboss.length <= 1 && !this.getPrice && this.level.endboss[0].isDead()) {
+        if(this.level.endboss.length <= 1 && !this.dropPrice && this.level.endboss[0].isDead()) {
             // this.character.takesGift = false;
-            this.getPrice = true;
+            this.dropPrice = true;
             let price = new GiftObject(6620, 'price');
             price.width = 100;
             price.height = 100;
@@ -287,7 +287,7 @@ class World {
 
 
     checkCollisionGift() {
-        if(this.getGift && (!this.character.takesGift || this.getPrice)) {
+        if(this.dropGift && (!this.character.takesGift || this.dropPrice)) {
             if(this.level.giftObject.length > 0) {
                 this.level.giftObject.forEach((gift) => {
                     if(this.character.isColliding(gift, 20, 20 , 20, 150) && 
@@ -362,6 +362,7 @@ class World {
 
 
     playFinishSound() {
+        this.character.takesPrice = true;
         this.stopBackground2Music(); 
         this.finish_sound.loop = true;
         this.finish_sound.play();

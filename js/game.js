@@ -7,7 +7,6 @@ let background_music = new Audio('audio/background_music1.mp3');
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
-    playBackgroundMusic();
     console.log('My Character is', world.character);
     startCountdown();
     
@@ -24,13 +23,13 @@ function startCountdown() {
         resetCountdownSeconds(sec, min)
         setCountdownMinutes(min, time);
         setCountdownSeconds(sec, time);
-        if(world.character.dead) clearInterval(timer);
+        if(world.character.dead || world.character.takesPrice) clearInterval(timer);
     }, 1000);
 }
 
 
 function resetCountdownSeconds(sec, min) {
-    if(sec%60 == 0) {
+    if(sec == 60) {
         min++;
         sec = 0;
     }
@@ -52,12 +51,6 @@ function setCountdownSeconds(sec, time) {
     } else time.innerHTML += '00';
 }
 
-
-function playBackgroundMusic() {
-    background_music.volume = 0.2;
-    background_music.loop = true; 
-    //background_music.play();
-}
 
 window.addEventListener("keydown", (event) => {
     if(event.key == 'ArrowRight' ) keyboard.RIGHT = true;
