@@ -4,6 +4,7 @@ let world;
 let keyboard = new Keyboard();
 let background_music = new Audio('audio/background_music1.mp3');
 
+
 function init() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
@@ -15,9 +16,14 @@ function init() {
 
 function startCountdown() {
     let time = document.getElementById('countdown');
-    time.innerHTML = '';
+    time.innerHTML = '00:00';
     let sec = 0;
     let min = 0;
+    setCountdown(time, sec, min);
+}
+
+
+function setCountdown(time, sec, min) {
     let timer = setInterval( () => {
         sec++;
         if(!(sec%60)) {
@@ -56,6 +62,7 @@ window.addEventListener("keydown", (event) => {
     else if(event.key == 'd') keyboard.keyD = true;
 });
 
+
 window.addEventListener("keyup", (event) => {
     if(event.key == 'ArrowRight' ) keyboard.RIGHT = false;
     else if(event.key == 'ArrowLeft' ) keyboard.LEFT = false;
@@ -63,4 +70,4 @@ window.addEventListener("keyup", (event) => {
     else if(event.key == 'ArrowUp' ) keyboard.UP = false;
     else if(event.key == 'ArrowDown' ) keyboard.DOWN = false;
     else if(event.key == 'd') keyboard.keyD = false;
-})
+});
