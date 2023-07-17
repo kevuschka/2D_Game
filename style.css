@@ -54,6 +54,10 @@ html {
     position: sticky;
 }
 
+p {
+    margin: 0;
+}
+
 @font-face {
     font-family: 'zabars';
     src: url('fonts/zabars.ttf');
@@ -93,8 +97,12 @@ canvas {
         background-image: url('img/background_mobile.png');
     }
 } */
+.canvasMenuTop {
+    top: 0;
+    justify-content: center;
+}
 
-.canvasMenu {
+.canvasMenuBottom {
     bottom: 0;
     justify-content: flex-end;
     padding-bottom: 6px;
@@ -104,4 +112,9 @@ canvas {
     margin-right: 12px;
     margin-bottom: 	12px;
     width: 18px;
+}
+
+#countdown {
+    font-size: 20px;
+    margin-top: 12px;
 }

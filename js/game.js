@@ -9,9 +9,49 @@ function init() {
     world = new World(canvas, keyboard);
     playBackgroundMusic();
     console.log('My Character is', world.character);
-    
+    startCountdown();
     
 }
+
+
+function startCountdown() {
+    let time = document.getElementById('countdown');
+    time.innerHTML = '';
+    let sec = 0;
+    let min = 0;
+    let timer = setInterval( () => {
+        sec++;
+        resetCountdownSeconds(sec, min)
+        setCountdownMinutes(min, time);
+        setCountdownSeconds(sec, time);
+        if(world.character.dead) clearInterval(timer);
+    }, 1000);
+}
+
+
+function resetCountdownSeconds(sec, min) {
+    if(sec%60 == 0) {
+        min++;
+        sec = 0;
+    }
+}
+
+
+function setCountdownMinutes(min, time) {
+    if(min > 0) {
+        if(min > 9) time.innerHTML = min + ':';
+        else time.innerHTML = '0' + min + ':';
+    } else time.innerHTML = '00:';
+}
+
+
+function setCountdownSeconds(sec, time) {
+    if(sec > 0) {
+        if(sec > 9) time.innerHTML += sec;
+        else time.innerHTML += '0' + sec;
+    } else time.innerHTML += '00';
+}
+
 
 function playBackgroundMusic() {
     background_music.volume = 0.2;
