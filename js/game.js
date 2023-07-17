@@ -20,19 +20,14 @@ function startCountdown() {
     let min = 0;
     let timer = setInterval( () => {
         sec++;
-        resetCountdownSeconds(sec, min)
+        if(!(sec%60)) {
+            sec = 0;
+            min++;
+        }
         setCountdownMinutes(min, time);
         setCountdownSeconds(sec, time);
         if(world.character.dead || world.character.takesPrice) clearInterval(timer);
     }, 1000);
-}
-
-
-function resetCountdownSeconds(sec, min) {
-    if(sec == 60) {
-        min++;
-        sec = 0;
-    }
 }
 
 
