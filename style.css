@@ -89,14 +89,24 @@ body > h1 {
 
 canvas {
     background-color: black;
+    display: block;
+
 }
 
 
-/* @media screen and (max-width: 1300px) {
-    body {
-        background-image: url('img/background_mobile.png');
+@media screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
     }
-} */
+} 
+
+@media screen and (max-heigth: 480px) {
+    canvas {
+        height: 100vh;
+    }
+} 
+
+
 .canvasMenuTop {
     top: 0;
     justify-content: center;
