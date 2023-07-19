@@ -141,7 +141,8 @@ class Character extends MovableObject {
             if(!this.isDead()) {
                 if(this.world.keyboard.SPACE || this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.keyD || this.isHurt()) {
                     if(!this.backgroundMusicPlays) {
-                        this.world.playBackgroundMusic();
+                        if(!this.takesGift) this.world.playBackgroundMusic();
+                        else this.world.playBackground2Music();
                         this.backgroundMusicPlays = true;
                     }
                     this.lastMove = new Date().getTime();

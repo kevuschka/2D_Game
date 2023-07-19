@@ -3,6 +3,7 @@ let ctx;
 let world;
 let keyboard = new Keyboard();
 let background_music = new Audio('audio/background_music1.mp3');
+let fullscreen = false;
 
 
 function init() {
@@ -71,3 +72,40 @@ window.addEventListener("keyup", (event) => {
     else if(event.key == 'ArrowDown' ) keyboard.DOWN = false;
     else if(event.key == 'd') keyboard.keyD = false;
 });
+
+
+function resizeFullscreen() {
+    if(!fullscreen) openFullscreen();
+    else closeFullscreen();
+}
+
+
+function openFullscreen() {
+    fullscreen = true;
+    let elem = document.documentElement;
+    if (elem.requestFullscreen) elem.requestFullscreen();
+    else if (elem.mozRequestFullScreen)  /* Firefox */ elem.mozRequestFullScreen();
+    else if (elem.webkitRequestFullscreen)  /* Chrome, Safari & Opera */ elem.webkitRequestFullscreen();
+    else if (elem.msRequestFullscreen)  /* IE/Edge */ elem.msRequestFullscreen();
+    else closeFullscreen();
+
+    document.getElementById('wrapper').classList.add('wrapperFullscreen');
+    document.getElementById('title').classList.add('d-none');
+    document.getElementById('canvas').style.height = '100vh';
+}
+
+
+function closeFullscreen() {
+    fullscreen = false;
+    if (document.exitFullscreen) 
+        document.exitFullscreen();
+    else if (document.mozCancelFullScreen) 
+        document.mozCancelFullScreen();
+    else if (document.webkitExitFullscreen) 
+        document.webkitExitFullscreen();
+    else if (document.msExitFullscreen) 
+        document.msExitFullscreen();
+
+    document.getElementById('title').classList.remove('d-none');
+    document.getElementById('canvas').style.height = 'unset';
+}

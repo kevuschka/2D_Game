@@ -27,8 +27,8 @@
     <script src="js/game.js"></script>
 </head>
 <body onload="init()">
-    <h1>El pollo loco</h1>
-    <div class="relative">
+    <h1 id="title">El pollo loco</h1>
+    <div id="wrapper" class="relative">
         <canvas width="720" height="480" id="canvas">
         
         </canvas>
@@ -36,7 +36,7 @@
             <p id="countdown">00:00</p>
         </div>
         <div class="canvasMenuBottom flex absolute w-100">
-            <img class="btnFullscreen cursor-p" src="img/icons/fullscreen_icon.png" onclick="" >
+            <img class="btnFullscreen cursor-p" src="img/icons/fullscreen_icon.png" onclick="resizeFullscreen()">
         </div>
         
     </div>
