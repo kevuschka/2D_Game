@@ -119,6 +119,10 @@ canvas {
     margin-top: 12px;
 }
 
+.respBtns {
+    display: none;
+}
+
 @media screen and (max-height: 1324px) {
 
     @media screen and (max-width: 1982px) {
@@ -188,6 +192,10 @@ canvas {
 @media screen and (max-width: 720px) {
     canvas {
         width: 100%;
+    }
+
+    .respBtns {
+        display: flex;
     }
 } 
 
