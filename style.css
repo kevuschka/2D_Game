@@ -198,6 +198,18 @@ canvas {
     }
 }
 
+@media screen and (max-width: 500px) {
+    body {
+        justify-content: flex-start;
+        backdrop-filter: blur(5px);
+    }
+
+    #title {
+        margin: 24px 0 24px 0;
+        font-size: 42px;
+    }   
+}
+
 @media screen and (max-height: 480px) {
     #title {
         display: none;
