@@ -97,42 +97,6 @@ canvas {
     justify-content: center;
 }
 
-@media screen and (max-width: 1260px) {
-
-    .btnFullscreen {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 720px) {
-    canvas {
-        width: 100%;
-    }
-
-} 
-
-@media screen and (max-height: 575px) {
-
-    #title {
-        display: none;
-    }
-
-    .btnFullscreen {
-        display: none;
-    }
-}
-
-@media screen and (max-height: 480px) {
-    #title {
-        display: none;
-    }
-    
-    canvas {
-        height: 100vh;
-    }    
-} 
-
-
 .canvasMenuTop {
     top: 0;
     justify-content: center;
@@ -154,3 +118,93 @@ canvas {
     font-size: 20px;
     margin-top: 12px;
 }
+
+@media screen and (max-height: 1324px) {
+
+    @media screen and (max-width: 1982px) {
+
+        .btnFullscreen {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-height: 1201px) {
+
+    .btnFullscreen {
+        display: block;
+    }
+
+    @media screen and (max-width: 1790px) {
+
+        .btnFullscreen {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-height: 1001px) {
+
+    .btnFullscreen {
+        display: block;
+    }
+
+    @media screen and (max-width: 1500px) {
+
+        .btnFullscreen {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-height: 801px) {
+
+    .btnFullscreen {
+        display: block;
+    }
+
+    @media screen and (max-width: 1201px) {
+
+        .btnFullscreen {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-height: 501px) {
+
+    .btnFullscreen {
+        display: block;
+    }
+
+    @media screen and (max-width: 748px) {
+
+        .btnFullscreen {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+} 
+
+@media screen and (max-height: 575px) {
+
+    #title {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 480px) {
+    #title {
+        display: none;
+    }
+    
+    canvas {
+        height: 100vh;
+    }    
+} 
+
