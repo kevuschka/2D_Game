@@ -106,6 +106,7 @@ function closeFullscreen() {
     else if (document.msExitFullscreen) 
         document.msExitFullscreen();
 
+    document.getElementById('wrapper').classList.remove('wrapperFullscreen');
     document.getElementById('title').classList.remove('d-none');
-    document.getElementById('canvas').style.height = 'unset';
+    document.getElementById('canvas').style.height = '';
 }

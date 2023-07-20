@@ -90,7 +90,6 @@ body > h1 {
 canvas {
     background-color: black;
     display: block;
-
 }
 
 .wrapperFullscreen {
@@ -109,6 +108,7 @@ canvas {
     canvas {
         width: 100%;
     }
+
 } 
 
 @media screen and (max-height: 575px) {
