@@ -121,6 +121,22 @@ canvas {
 
 .respBtns {
     display: none;
+    justify-content: space-around;
+    margin-top: 80px;
+}
+
+.runBtns {
+    height: 140px;
+    gap: 20px;
+}
+
+.abilityBtns {
+    gap: 22px;
+}
+
+.abilityBottle {
+    height: 91px;
+    width: 110px;
 }
 
 @media screen and (max-height: 1324px) {
