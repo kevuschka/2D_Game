@@ -142,7 +142,7 @@ class Character extends MovableObject {
                 if(this.world.keyboard.SPACE || this.world.keyboard.RIGHT || this.world.keyboard.LEFT || this.world.keyboard.keyD || this.isHurt()) {
                     if(!this.backgroundMusicPlays) {
                         if(!this.takesGift) this.world.playBackgroundMusic();
-                        else this.world.playBackground2Music();
+                        else if(!this.takesPrice) this.world.playBackground2Music();
                         this.backgroundMusicPlays = true;
                     }
                     this.lastMove = new Date().getTime();

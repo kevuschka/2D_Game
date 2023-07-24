@@ -6,6 +6,7 @@ class GiftObject extends CollectableObject {
     name;
 
     getGift_sound = new Audio('audio/gift.mp3');
+    getPrice_sound = new Audio('audio/price.mp3');
 
     IMAGES_DRINK = [
         'img/gift/drink_1.png',
@@ -46,7 +47,7 @@ class GiftObject extends CollectableObject {
             this.y += 5;
             if((this.y + this.height) >= 412) {
                 clearInterval(fallDown);
-                if(this.name == 'price')
+                if(this.name == 'price') this.playPriceSound();
             }
         }, 50);
     }
@@ -57,5 +58,7 @@ class GiftObject extends CollectableObject {
     }
 
 
-    
+    playPriceSound() {
+        this.getPrice_sound.play();
+    }
 }
