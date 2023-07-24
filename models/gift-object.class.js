@@ -44,13 +44,15 @@ class GiftObject extends CollectableObject {
         if(this.name == 'drink') this.playGetGiftSound();
         let fallDown = setInterval(() => {
             this.y += 5;
-            if((this.y + this.height) >= 412) clearInterval(fallDown);
+            if((this.y + this.height) >= 412) {
+                clearInterval(fallDown);
+                if(this.name == 'price')
+            }
         }, 50);
     }
 
     playGetGiftSound() {
         this.getGift_sound.currentTime = 0;
-        // this.getGift_sound.volume = 0.5;
         this.getGift_sound.play();
     }
 

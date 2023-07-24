@@ -189,7 +189,6 @@ class World {
 
     secondEndbossGift() {
         if(this.level.endboss.length <= 1 && !this.dropPrice && this.level.endboss[0].isDead()) {
-            // this.character.takesGift = false;
             this.dropPrice = true;
             let price = new GiftObject(6620, 'price');
             price.width = 100;
