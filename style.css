@@ -250,6 +250,15 @@ canvas {
     }
 }
 
+
+@media screen and (max-width: 550px) {
+    .runBtn, .jumpBtn {
+        filter: invert(100%);
+        height: 112px;
+    }
+}
+
+
 @media screen and (max-width: 500px) {
     body {
         justify-content: flex-start;
