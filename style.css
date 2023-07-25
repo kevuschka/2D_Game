@@ -258,6 +258,12 @@ canvas {
     }
 }
 
+@media screen and (orientation: landscape) {
+    .respBtns {
+        display: none;
+    }
+}
+
 
 @media screen and (max-width: 500px) {
     body {
