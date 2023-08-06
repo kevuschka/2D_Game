@@ -109,9 +109,11 @@ canvas {
 }
 
 .btnFullscreen {
+    margin-top: 32px;
     margin-right: 12px;
-    margin-bottom: 	12px;
+    margin-bottom: 	0px;
     width: 18px;
+    height: 18px;
 }
 
 #countdown {
@@ -158,69 +160,15 @@ canvas {
     filter: invert(106%) sepia(98%) saturate(1111) hue-rotate(22deg) brightness(83%) contrast(100%);
 }
 
-@media screen and (max-height: 1324px) {
-
-    @media screen and (max-width: 1982px) {
-
-        .btnFullscreen {
-            display: none;
-        }
-    }
-}
-
-@media screen and (max-height: 1201px) {
-
+@media screen and (min-aspect-ratio: 3 / 2) {
     .btnFullscreen {
         display: block;
     }
-
-    @media screen and (max-width: 1790px) {
-
-        .btnFullscreen {
-            display: none;
-        }
-    }
 }
 
-@media screen and (max-height: 1001px) {
-
+@media screen and (max-aspect-ratio: 3 / 2) {
     .btnFullscreen {
-        display: block;
-    }
-
-    @media screen and (max-width: 1500px) {
-
-        .btnFullscreen {
-            display: none;
-        }
-    }
-}
-
-@media screen and (max-height: 801px) {
-
-    .btnFullscreen {
-        display: block;
-    }
-
-    @media screen and (max-width: 1201px) {
-
-        .btnFullscreen {
-            display: none;
-        }
-    }
-}
-
-@media screen and (max-height: 501px) {
-
-    .btnFullscreen {
-        display: block;
-    }
-
-    @media screen and (max-width: 748px) {
-
-        .btnFullscreen {
-            display: none;
-        }
+        display: none;
     }
 }
 
