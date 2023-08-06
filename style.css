@@ -87,6 +87,10 @@ body > h1 {
     margin: 0 0 12px 0;
 }
 
+.wrapper {
+    justify-content: center;
+}
+
 canvas {
     background-color: black;
     display: block;
@@ -160,6 +164,20 @@ canvas {
     filter: invert(106%) sepia(98%) saturate(1111) hue-rotate(22deg) brightness(83%) contrast(100%);
 }
 
+.sideRespBtns {
+    top: 40%;
+    width: 48px;
+    display: none;
+}
+
+.sideRespBtnLeft {
+    left: 5px;
+}
+
+.sideRespBtnRight {
+    right: 5px;
+}
+
 @media screen and (min-aspect-ratio: 3 / 2) {
     .btnFullscreen {
         display: block;
@@ -209,6 +227,12 @@ canvas {
 @media screen and (orientation: landscape) {
     .respBtns {
         display: none;
+    }
+
+    @media screen and (min-aspect-ratio: 7 / 4) {
+        .sideRespBtns {
+            display: flex;
+        }
     }
 }
 

@@ -28,20 +28,36 @@
 </head>
 <body onload="init()">
     <h1 id="title">El pollo loco</h1>
-    <div id="wrapper" class="relative">
-        <canvas width="720" height="480" id="canvas">
+    <div class="wrapper w-100 flex">
+        <img class="sideRespBtns sideRespBtnLeft absolute" src="img/icons/btn_left.png" alt="">
+        <img class="sideRespBtns sideRespBtnRight absolute" src="img/icons/btn_right.png" alt="">
+        <!-- <div class="sideRespBtns relative flex h-100">
         
-        </canvas>
-        <div class="canvasMenuTop flex absolute w-100">
-            <p id="countdown">00:00</p>
-        </div>
-        <div class="canvasMenuBottom flex absolute w-100">
-            <div>
-                <img src="img/icons/landscape_menu_open.png" alt="">
-                <img src="img/icons/landscape_menu_close.png d-none" alt="">
+            <img class="sideRespBtn d-none" src="img/icons/btn_left_pressed.png" alt=""> 
+        </div> -->
+
+        <div id="canvasWrapper" class="relative">
+            <canvas width="720" height="480" id="canvas">
+            
+            </canvas>
+            <div class="canvasMenuTop flex absolute w-100">
+                <p id="countdown">00:00</p>
             </div>
-            <img class="btnFullscreen cursor-p" src="img/icons/fullscreen_icon.png" onclick="resizeFullscreen()">
+            <div class="canvasMenuBottom flex absolute w-100">
+                <div>
+                    <img src="img/icons/landscape_menu_open.png" alt="">
+                    <img src="img/icons/landscape_menu_close.png" class="d-none" alt="">
+                </div>
+                <img class="btnFullscreen cursor-p" src="img/icons/fullscreen_icon.png" onclick="resizeFullscreen()">
+            </div>
         </div>
+
+        <!-- <div class="sideRespBtns relative h-100">
+            <img class="sideRespBtn absolute flex" src="img/icons/btn_right.png" alt="">
+            <img class="sideRespBtn d-none" src="img/icons/btn_right_pressed.png" alt="">
+        </div> -->
+
+
     </div>
     <div class="respBtns w-100 flex column">
         <div class="moveBtns flex">
